@@ -1,0 +1,1617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>挂号系统测试</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", sans-serif;
+            background: #f5f7fa;
+            padding: 24px;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+            padding: 24px;
+            border-radius: 12px;
+            margin-bottom: 24px;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .header p {
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        .test-suite {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .test-suite-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 16px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .test-case {
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            border-radius: 8px;
+            border-left: 4px solid #e5e7eb;
+            background: #f9fafb;
+            transition: all 0.3s;
+        }
+
+        .test-case.pending {
+            border-left-color: #9ca3af;
+        }
+
+        .test-case.running {
+            border-left-color: #f59e0b;
+            background: #fef3c7;
+        }
+
+        .test-case.passed {
+            border-left-color: #10b981;
+            background: #ecfdf5;
+        }
+
+        .test-case.failed {
+            border-left-color: #ef4444;
+            background: #fef2f2;
+        }
+
+        .test-case-title {
+            font-weight: 600;
+            color: #374151;
+            margin-bottom: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .test-case-status {
+            font-size: 14px;
+            font-weight: normal;
+            padding: 2px 8px;
+            border-radius: 4px;
+        }
+
+        .status-pending {
+            background: #e5e7eb;
+            color: #6b7280;
+        }
+
+        .status-running {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .status-passed {
+            background: #d1fae5;
+            color: #059669;
+        }
+
+        .status-failed {
+            background: #fee2e2;
+            color: #dc2626;
+        }
+
+        .test-case-desc {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .test-case-error {
+            font-size: 14px;
+            color: #dc2626;
+            margin-top: 8px;
+            padding: 8px;
+            background: #fef2f2;
+            border-radius: 4px;
+            display: none;
+        }
+
+        .test-case.failed .test-case-error {
+            display: block;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: #2563eb;
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: #1d4ed8;
+        }
+
+        .btn-secondary {
+            background: #6b7280;
+            color: white;
+        }
+
+        .btn-secondary:hover:not(:disabled) {
+            background: #4b5563;
+        }
+
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .summary {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 16px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .summary-item {
+            text-align: center;
+            padding: 16px;
+            border-radius: 8px;
+        }
+
+        .summary-item.total {
+            background: #eff6ff;
+        }
+
+        .summary-item.passed {
+            background: #ecfdf5;
+        }
+
+        .summary-item.failed {
+            background: #fef2f2;
+        }
+
+        .summary-item.pending {
+            background: #f3f4f6;
+        }
+
+        .summary-number {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .summary-item.total .summary-number {
+            color: #2563eb;
+        }
+
+        .summary-item.passed .summary-number {
+            color: #10b981;
+        }
+
+        .summary-item.failed .summary-number {
+            color: #ef4444;
+        }
+
+        .summary-item.pending .summary-number {
+            color: #6b7280;
+        }
+
+        .summary-label {
+            font-size: 14px;
+            color: #6b7280;
+        }
+
+        .ua-info {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .ua-info h3 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: #1f2937;
+        }
+
+        .ua-info p {
+            font-size: 14px;
+            color: #6b7280;
+            word-break: break-all;
+            padding: 12px;
+            background: #f9fafb;
+            border-radius: 8px;
+            font-family: monospace;
+        }
+
+        .ua-badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .ua-wechat {
+            background: #d1fae5;
+            color: #059669;
+        }
+
+        .ua-other {
+            background: #fef3c7;
+            color: #d97706;
+        }
+
+        .iframe-container {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .iframe-container h3 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: #1f2937;
+        }
+
+        .iframe-wrapper {
+            position: relative;
+            width: 375px;
+            max-width: 100%;
+            margin: 0 auto;
+            border: 2px solid #e5e7eb;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+        }
+
+        .iframe-wrapper::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 120px;
+            height: 24px;
+            background: #1f2937;
+            border-radius: 0 0 12px 12px;
+            z-index: 10;
+        }
+
+        iframe {
+            width: 100%;
+            height: 667px;
+            border: none;
+            display: block;
+            margin-top: 24px;
+        }
+
+        .mock-controls {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .mock-controls h3 {
+            font-size: 18px;
+            margin-bottom: 12px;
+            color: #1f2937;
+        }
+
+        .mock-control-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 12px;
+            background: #f9fafb;
+            border-radius: 8px;
+            margin-bottom: 8px;
+        }
+
+        .mock-control-item label {
+            font-weight: 500;
+            color: #374151;
+        }
+
+        .toggle-switch {
+            position: relative;
+            width: 50px;
+            height: 26px;
+            background: #e5e7eb;
+            border-radius: 13px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .toggle-switch.active {
+            background: #10b981;
+        }
+
+        .toggle-switch::after {
+            content: '';
+            position: absolute;
+            top: 3px;
+            left: 3px;
+            width: 20px;
+            height: 20px;
+            background: white;
+            border-radius: 50%;
+            transition: all 0.3s;
+        }
+
+        .toggle-switch.active::after {
+            left: 27px;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>🧪 社区诊所挂号系统测试</h1>
+        <p>自动化测试套件 - 覆盖核心业务场景</p>
+    </div>
+
+    <div class="ua-info">
+        <h3>📱 当前浏览器环境</h3>
+        <span class="ua-badge" id="uaBadge">检测中...</span>
+        <p id="uaText"></p>
+    </div>
+
+    <div class="mock-controls">
+        <h3>⚙️ Mock 控制</h3>
+        <div class="mock-control-item">
+            <label>模拟微信内置浏览器 UA</label>
+            <div class="toggle-switch" id="wechatUaToggle" onclick="toggleWechatUA()"></div>
+        </div>
+        <div class="mock-control-item">
+            <label>模拟号源已约满（时段冲突）</label>
+            <div class="toggle-switch" id="slotConflictToggle" onclick="toggleSlotConflict()"></div>
+        </div>
+    </div>
+
+    <div class="btn-group">
+        <button class="btn btn-primary" id="runAllBtn" onclick="runAllTests()">▶ 运行所有测试</button>
+        <button class="btn btn-secondary" onclick="resetTests()">🔄 重置测试</button>
+        <button class="btn btn-secondary" onclick="clearStorage()">🗑 清空存储数据</button>
+    </div>
+
+    <div class="summary">
+        <div class="summary-item total">
+            <div class="summary-number" id="totalCount">0</div>
+            <div class="summary-label">总用例数</div>
+        </div>
+        <div class="summary-item passed">
+            <div class="summary-number" id="passedCount">0</div>
+            <div class="summary-label">通过</div>
+        </div>
+        <div class="summary-item failed">
+            <div class="summary-number" id="failedCount">0</div>
+            <div class="summary-label">失败</div>
+        </div>
+        <div class="summary-item pending">
+            <div class="summary-number" id="pendingCount">0</div>
+            <div class="summary-label">待执行</div>
+        </div>
+    </div>
+
+    <div id="testSuitesContainer"></div>
+
+    <div class="iframe-container">
+        <h3>📱 挂号页面预览（iPhone尺寸）</h3>
+        <div class="iframe-wrapper">
+            <iframe id="testFrame" src="index.html" sandbox="allow-same-origin allow-scripts allow-forms allow-modals"></iframe>
+        </div>
+    </div>
+
+    <script>
+        const testSuites = [
+            {
+                name: '📋 基础功能测试',
+                tests: [
+                    {
+                        id: 'tc001',
+                        title: '页面加载完成',
+                        desc: '验证挂号页面能够正常加载，DOM结构完整',
+                        run: async (frame) => {
+                            await waitForFrameLoad(frame);
+                            const header = frame.contentDocument.querySelector('.header');
+                            const progressBar = frame.contentDocument.querySelector('.progress-bar');
+                            const page1 = frame.contentDocument.getElementById('page1');
+                            
+                            assert(header !== null, '页面头部不存在');
+                            assert(progressBar !== null, '进度条不存在');
+                            assert(page1 !== null, '第1步页面不存在');
+                            assert(page1.classList.contains('active'), '第1步页面未激活');
+                        }
+                    },
+                    {
+                        id: 'tc002',
+                        title: '8个科室正确渲染',
+                        desc: '验证内科、外科、儿科、妇科、中医科、口腔科、眼科、皮肤科共8个科室正确显示',
+                        run: async (frame) => {
+                            await waitForFrameLoad(frame);
+                            const deptCards = frame.contentDocument.querySelectorAll('#departmentGrid .card');
+                            
+                            assert(deptCards.length === 8, `科室数量应为8，实际为${deptCards.length}`);
+                            
+                            const deptNames = Array.from(deptCards).map(c => c.textContent);
+                            const expectedDepts = ['内科', '外科', '儿科', '妇科', '中医科', '口腔科', '眼科', '皮肤科'];
+                            
+                            expectedDepts.forEach(dept => {
+                                assert(deptNames.some(n => n.includes(dept)), `缺少科室：${dept}`);
+                            });
+                        }
+                    },
+                    {
+                        id: 'tc003',
+                        title: '进度条显示4个步骤',
+                        desc: '验证顶部进度条显示选科室、选医生、选时间、填信息4个步骤',
+                        run: async (frame) => {
+                            await waitForFrameLoad(frame);
+                            const steps = frame.contentDocument.querySelectorAll('.progress-bar .step');
+                            
+                            assert(steps.length === 4, `步骤数量应为4，实际为${steps.length}`);
+                            
+                            const stepTexts = ['选科室', '选医生', '选时间', '填信息'];
+                            steps.forEach((step, index) => {
+                                assert(step.textContent.includes(stepTexts[index]), 
+                                    `第${index+1}步应为"${stepTexts[index]}"，实际为"${step.textContent.trim()}"`);
+                            });
+                            
+                            assert(steps[0].classList.contains('active'), '第1步应为激活状态');
+                        }
+                    }
+                ]
+            },
+            {
+                name: '🏥 科室医生联动测试',
+                tests: [
+                    {
+                        id: 'tc004',
+                        title: '选择内科后显示对应医生',
+                        desc: '选择内科后，应显示张医生、李医生、王医生3位内科医生',
+                        run: async (frame) => {
+                            await waitForFrameLoad(frame);
+                            resetPage(frame);
+                            
+                            const deptCards = frame.contentDocument.querySelectorAll('#departmentGrid .card');
+                            const internalDept = Array.from(deptCards).find(c => c.textContent.includes('内科'));
+                            assert(internalDept !== null, '未找到内科科室');
+                            
+                            internalDept.click();
+                            await delay(300);
+                            
+                            const doctorCards = frame.contentDocument.querySelectorAll('#doctorGrid .card');
+                            assert(doctorCards.length === 3, `内科医生数量应为3，实际为${doctorCards.length}`);
+                            
+                            const doctorNames = Array.from(doctorCards).map(c => c.textContent);
+                            const expectedDoctors = ['张医生', '李医生', '王医生'];
+                            expectedDoctors.forEach(doc => {
+                                assert(doctorNames.some(n => n.includes(doc)), `缺少医生：${doc}`);
+                            });
+                        }
+                    },
+                    {
+                        id: 'tc005',
+                        title: '选择外科后显示对应医生',
+                        desc: '选择外科后，应显示赵医生、钱医生2位外科医生',
+                        run: async (frame) => {
+                            await waitForFrameLoad(frame);
+                            resetPage(frame);
+                            
+                            const deptCards = frame.contentDocument.querySelectorAll('#departmentGrid .card');
+                            const surgeryDept = Array.from(deptCards).find(c => c.textContent.includes('外科'));
+                            assert(surgeryDept !== null, '未找到外科科室');
+                            
+                            surgeryDept.click();
+                            await delay(300);
+                            
+                            const doctorCards = frame.contentDocument.querySelectorAll('#doctorGrid .card');
+                            assert(doctorCards.length === 2, `外科医生数量应为2，实际为${doctorCards.length}`);
+                            
+                            const doctorNames = Array.from(doctorCards).map(c => c.textContent);
+                            const expectedDoctors = ['赵医生', '钱医生'];
+                            expectedDoctors.forEach(doc => {
+                                assert(doctorNames.some(n => n.includes(doc)), `缺少医生：${doc}`);
+                            });
+                        }
+                    },
+                    {
+                        id: 'tc006',
+                        title: '医生信息显示完整',
+                        desc: '医生卡片应显示姓名、职称、专长描述',
+                        run: async (frame) => {
+                            await waitForFrameLoad(frame);
+                            resetPage(frame);
+                            
+                            const deptCards = frame.contentDocument.querySelectorAll('#departmentGrid .card');
+                            deptCards[0].click();
+                            await delay(300);
+                            
+                            const doctorCard = frame.contentDocument.querySelector('#doctorGrid .card');
+                            assert(doctorCard !== null, '未找到医生卡片');
+                            
+                            const name = doctorCard.querySelector('.doctor-name');
+                            const title = doctorCard.querySelector('.doctor-title');
+                            const desc = doctorCard.querySelector('.doctor-desc');
+                            
+                            assert(name !== null, '医生姓名不存在');
+                            assert(title !== null, '医生职称不存在');
+                            assert(desc !== null, '医生描述不存在');
+                            assert(name.textContent.trim() !== '', '医生姓名为空');
+                            assert(title.textContent.trim() !== '', '医生职称为空');
+                            assert(desc.textContent.trim() !== '', '医生描述为空');
+                        }
+                    },
+                    {
+                        id: 'tc007',
+                        title: '复诊快捷入口 - 单号查询',
+                        desc: '输入正确的挂号单号后，应自动带出科室和医生信息',
+                        run: async (frame) => {
+                            await waitForFrameLoad(frame);
+                            clearFrameStorage(frame);
+                            resetPage(frame);
+                            
+                            const testBookingNo = '202606011234';
+                            const testRecord = {
+                                bookingNo: testBookingNo,
+                                departmentId: 1,
+                                departmentName: '内科',
+                                doctorId: 101,
+                                doctorName: '张医生',
+                                createTime: Date.now()
+                            };
+                            
+                            frame.contentWindow.localStorage.setItem('bookingRecords', 
+                                JSON.stringify({ [testBookingNo]: testRecord }));
+                            
+                            const input = frame.contentDocument.getElementById('quickBookingNo');
+                            input.value = testBookingNo;
+                            input.dispatchEvent(new Event('input', { bubbles: true }));
+                            
+                            const searchBtn = frame.contentDocument.getElementById('quickSearchBtn');
+                            searchBtn.click();
+                            await delay(1000);
+                            
+                            const currentStep = frame.contentWindow.currentStep;
+                            assert(currentStep === 2, `查询后应跳转到第2步，实际为第${currentStep}步`);
+                            
+                            const selectedDept = frame.contentWindow.selectedDepartment;
+                            const selectedDoc = frame.contentWindow.selectedDoctor;
+                            
+                            assert(selectedDept !== null, '科室未自动带出');
+                            assert(selectedDept.id === 1, `科室ID应为1，实际为${selectedDept?.id}`);
+                            assert(selectedDoc !== null, '医生未自动带出');
+                            assert(selectedDoc.id === 101, `医生ID应为101，实际为${selectedDoc?.id}`);
+                        }
+                    }
+                ]
+            },
+            {
+                name: '⏰ 时段选择与冲突测试',
+                tests: [
+                    {
+                        id: 'tc008',
+                        title: '日期选择器显示14天',
+                        desc: '验证日期选择器显示今天起14天内的日期',
+                        run: async (frame) => {
+                            await waitForFrameLoad(frame);
+                            goToStep(frame, 3);
+                            await delay(300);
+                            
+                            const dateCards = frame.contentDocument.querySelectorAll('#dateSlider .date-card');
+                            assert(dateCards.length === 14, `日期数量应为14，实际为${dateCards.length}`);
+                            
+                            const firstDate = dateCards[0].querySelector('.weekday');
+                            assert(firstDate.textContent === '今天', '第一天应显示"今天"');
+                            
+                            const secondDate = dateCards[1].querySelector('.weekday');
+                            assert(secondDate.textContent === '明天', '第二天应显示"明天"');
+                        }
+                    },
+                    {
+                        id: 'tc009',
+                        title: '时段显示上午和下午',
+                        desc: '验证时段分为上午和下午两个时段',
+                        run: async (frame) => {
+                            await waitForFrameLoad(frame);
+                            completeStep1and2(frame);
+                            goToStep(frame, 3);
+                            await delay(500);
+                            
+                            const timeSections = frame.contentDocument.querySelectorAll('.time-section');
+                            assert(timeSections.length === 2, `时段分组应为2，实际为${timeSections.length}`);
+                            
+                            const titles = Array.from(timeSections).map(s => s.querySelector('.time-title').textContent);
+                            assert(titles.some(t => t.includes('上午')), '缺少上午时段');
+                            assert(titles.some(t => t.includes('下午')), '缺少下午时段');
+                        }
+                    },
+                    {
+                        id: 'tc010',
+                        title: '时段选择后高亮显示',
+                        desc: '点击某一时段后，该时段应高亮显示',
+                        run: async (frame) => {
+                            await waitForFrameLoad(frame);
+                            completeStep1and2(frame);
+                            goToStep(frame, 3);
+                            await delay(500);
+                            
+                            const timeSlots = frame.contentDocument.querySelectorAll('.time-slot:not(.disabled)');
+                            assert(timeSlots.length > 0, '没有可选择的时段');
+                            
+                            const firstSlot = timeSlots[0];
+                            firstSlot.click();
+                            await delay(300);
+                            
+                            assert(firstSlot.classList.contains('selected'), '选中的时段未高亮显示');
+                        }
+                    },
+                    {
+                        id: 'tc011',
+                        title: '已约满时段显示候补',
+                        desc: '已约满的时段应显示"候补"按钮和排队人数',
+                        run: async (frame) => {
+                            await waitForFrameLoad(frame);
+                            completeStep1and2(frame);
+                            
+                            const selectedDept = frame.contentWindow.selectedDepartment;
+                            const selectedDoc = frame.contentWindow.selectedDoctor;
+                            const today = new Date().toISOString().split('T')[0];
+                            
+                            frame.contentWindow.markSlotBooked(today, selectedDoc.id, '08:00');
+                            
+                            goToStep(frame, 3);
+                            await delay(500);
+                            
+                            const timeSlots = frame.contentDocument.querySelectorAll('.time-slot');
+                            const bookedSlot = Array.from(timeSlots).find(s => s.dataset.time === '08:00');
+                            
+                            assert(bookedSlot !== null, '未找到08:00时段');
+                            assert(bookedSlot.textContent.includes('候补'), '已约满时段未显示候补');
+                        }
+                    },
+                    {
+                        id: 'tc012',
+                        title: '时段冲突 - 同一时段不能重复挂号',
+                        desc: '模拟号源已约满时，提交普通挂号应提示冲突',
+                        run: async (frame) => {
+                            await waitForFrameLoad(frame);
+                            clearFrameStorage(frame);
+                            completeStep1and2(frame);
+                            
+                            const selectedDoc = frame.contentWindow.selectedDoctor;
+                            const today = new Date().toISOString().split('T')[0];
+                            
+                            frame.contentWindow.markSlotBooked(today, selectedDoc.id, '08:30');
+                            
+                            goToStep(frame, 3);
+                            await delay(500);
+                            
+                            const timeSlots = frame.contentDocument.querySelectorAll('.time-slot:not(.disabled)');
+                            const availableSlot = Array.from(timeSlots).find(s => 
+                                !s.textContent.includes('候补') && !s.textContent.includes('已约满')
+                            );
+                            
+                            if (availableSlot) {
+                                availableSlot.click();
+                            } else {
+                                const waitingSlot = Array.from(timeSlots).find(s => s.textContent.includes('候补'));
+                                waitingSlot.click();
+                            }
+                            
+                            await delay(300);
+                            
+                            frame.contentWindow.markSlotBooked(today, selectedDoc.id, 
+                                frame.contentWindow.selectedTime?.time || '08:30');
+                            
+                            goToStep(frame, 4);
+                            await delay(300);
+                            
+                            fillForm(frame);
+                            
+                            const originalAlert = frame.contentWindow.alert;
+                            let alertMessage = null;
+                            frame.contentWindow.alert = (msg) => { alertMessage = msg; };
+                            
+                            frame.contentWindow.isWaitingList = false;
+                            frame.contentWindow.submitBooking();
+                            await delay(2000);
+                            
+                            frame.contentWindow.alert = originalAlert;
+                            
+                            assert(alertMessage !== null, '应弹出号源冲突提示');
+                            assert(alertMessage.includes('已被预约'), `提示信息不正确：${alertMessage}`);
+                        }
+                    },
+                    {
+                        id: 'tc013',
+                        title: '候补挂号成功',
+                        desc: '选择候补时段后，应能成功提交候补挂号',
+                        run: async (frame) => {
+                            await waitForFrameLoad(frame);
+                            clearFrameStorage(frame);
+                            completeStep1and2(frame);
+                            
+                            const selectedDoc = frame.contentWindow.selectedDoctor;
+                            const today = new Date().toISOString().split('T')[0];
+                            
+                            frame.contentWindow.markSlotBooked(today, selectedDoc.id, '08:00');
+                            
+                            goToStep(frame, 3);
+                            await delay(500);
+                            
+                            const waitingSlots = frame.contentDocument.querySelectorAll('.time-slot');
+                            const waitingSlot = Array.from(waitingSlots).find(s => s.textContent.includes('候补'));
+                            
+                            assert(waitingSlot !== null, '未找到可候补的时段');
+                            
+                            waitingSlot.click();
+                            await delay(300);
+                            
+                            assert(frame.contentWindow.isWaitingList === true, '未进入候补模式');
+                            
+                            goToStep(frame, 4);
+                            await delay(300);
+                            
+                            const notice = frame.contentDocument.getElementById('waitingListNotice');
+                            assert(notice.style.display !== 'none', '未显示候补提示');
+                            
+                            fillForm(frame);
+                            
+                            frame.contentWindow.submitBooking();
+                            await delay(2000);
+                            
+                            const successPage = frame.contentDocument.getElementById('pageSuccess');
+                            assert(successPage.classList.contains('active'), '未跳转到成功页面');
+                            
+                            const successTitle = frame.contentDocument.getElementById('successTitle').textContent;
+                            assert(successTitle === '候补成功！', `标题应为"候补成功！"，实际为"${successTitle}"`);
+                            
+                            const successType = frame.contentDocument.getElementById('successType').textContent;
+                            assert(successType.includes('候补挂号'), `类型应为候补挂号，实际为"${successType}"`);
+                        }
+                    }
+                ]
+            },
+            {
+                name: '🆔 表单验证测试',
+                tests: [
+                    {
+                        id: 'tc014',
+                        title: '姓名为空时按钮禁用',
+                        desc: '姓名未填写时，提交按钮应处于禁用状态',
+                        run: async (frame) => {
+                            await waitForFrameLoad(frame);
+                            completeAllSteps(frame);
+                            goToStep(frame, 4);
+                            await delay(300);
+                            
+                            const nameInput = frame.contentDocument.getElementById('patientName');
+                            nameInput.value = '';
+                            nameInput.dispatchEvent(new Event('input', { bubbles: true }));
+                            
+                            const nextBtn = frame.contentDocument.getElementById('nextBtn');
+                            assert(nextBtn.disabled === true, '姓名为空时按钮未禁用');
+                        }
+                    },
+                    {
+                        id: 'tc015',
+                        title: '身份证号 - 小写x自动转大写X',
+                        desc: '输入小写x时，应自动转换为大写X',
+                        run: async (frame) => {
+                            await waitForFrameLoad(frame);
+                            completeAllSteps(frame);
+                            goToStep(frame, 4);
+                            await delay(300);
+                            
+                            const idInput = frame.contentDocument.getElementById('idCard');
+                            idInput.value = '11010119900101123x';
+                            idInput.dispatchEvent(new Event('input', { bubbles: true }));
+                            
+                            await delay(100);
+                            
+                            const actualValue = idInput.value;
+                            assert(actualValue === '11010119900101123X', 
+                                `小写x未转大写，实际值为"${actualValue}"`);
+                        }
+                    },
+                    {
+                        id: 'tc016',
+                        title: '身份证号 - 正确格式验证通过',
+                        desc: '输入正确的18位身份证号（含X），验证应通过',
+                        run: async (frame) => {
+                            await waitForFrameLoad(frame);
+                            completeAllSteps(frame);
+                            goToStep(frame, 4);
+                            await delay(300);
+                            
+                            const idInput = frame.contentDocument.getElementById('idCard');
+                            idInput.value = '11010119900101123X';
+                            idInput.dispatchEvent(new Event('input', { bubbles: true }));
+                            idInput.dispatchEvent(new Event('blur', { bubbles: true }));
+                            
+                            await delay(100);
+                            
+                            const errorEl = frame.contentDocument.getElementById('idCardError');
+                            assert(errorEl.style.display === 'none', 
+                                `正确身份证号不应报错，实际显示：${errorEl.textContent}`);
+                        }
+                    },
+                    {
+                        id: 'tc017',
+                        title: '身份证号 - 错误格式验证失败',
+                        desc: '输入错误格式的身份证号，应显示错误提示',
+                        run: async (frame) => {
+                            await waitForFrameLoad(frame);
+                            completeAllSteps(frame);
+                            goToStep(frame, 4);
+                            await delay(300);
+                            
+                            const idInput = frame.contentDocument.getElementById('idCard');
+                            idInput.value = '123456789012345678';
+                            idInput.dispatchEvent(new Event('input', { bubbles: true }));
+                            idInput.dispatchEvent(new Event('blur', { bubbles: true }));
+                            
+                            await delay(100);
+                            
+                            const errorEl = frame.contentDocument.getElementById('idCardError');
+                            assert(errorEl.style.display !== 'none', '错误身份证号应显示错误提示');
+                        }
+                    },
+                    {
+                        id: 'tc018',
+                        title: '手机号格式验证',
+                        desc: '输入11位手机号，验证应通过',
+                        run: async (frame) => {
+                            await waitForFrameLoad(frame);
+                            completeAllSteps(frame);
+                            goToStep(frame, 4);
+                            await delay(300);
+                            
+                            const phoneInput = frame.contentDocument.getElementById('phone');
+                            phoneInput.value = '13800138000';
+                            phoneInput.dispatchEvent(new Event('input', { bubbles: true }));
+                            phoneInput.dispatchEvent(new Event('blur', { bubbles: true }));
+                            
+                            await delay(100);
+                            
+                            const errorEl = frame.contentDocument.getElementById('phoneError');
+                            assert(errorEl.style.display === 'none', 
+                                `正确手机号不应报错，实际显示：${errorEl.textContent}`);
+                        }
+                    },
+                    {
+                        id: 'tc019',
+                        title: '手机号错误格式验证失败',
+                        desc: '输入错误格式的手机号，应显示错误提示',
+                        run: async (frame) => {
+                            await waitForFrameLoad(frame);
+                            completeAllSteps(frame);
+                            goToStep(frame, 4);
+                            await delay(300);
+                            
+                            const phoneInput = frame.contentDocument.getElementById('phone');
+                            phoneInput.value = '12345678901';
+                            phoneInput.dispatchEvent(new Event('input', { bubbles: true }));
+                            phoneInput.dispatchEvent(new Event('blur', { bubbles: true }));
+                            
+                            await delay(100);
+                            
+                            const errorEl = frame.contentDocument.getElementById('phoneError');
+                            assert(errorEl.style.display !== 'none', '错误手机号应显示错误提示');
+                        }
+                    },
+                    {
+                        id: 'tc020',
+                        title: '短信验证码发送',
+                        desc: '输入正确手机号后，应能发送验证码',
+                        run: async (frame) => {
+                            await waitForFrameLoad(frame);
+                            completeAllSteps(frame);
+                            goToStep(frame, 4);
+                            await delay(300);
+                            
+                            const phoneInput = frame.contentDocument.getElementById('phone');
+                            phoneInput.value = '13800138000';
+                            phoneInput.dispatchEvent(new Event('input', { bubbles: true }));
+                            
+                            await delay(100);
+                            
+                            const sendBtn = frame.contentDocument.getElementById('sendSmsBtn');
+                            assert(sendBtn.disabled === false, '手机号正确时发送按钮应可用');
+                            
+                            const originalAlert = frame.contentWindow.alert;
+                            let alertMessage = null;
+                            frame.contentWindow.alert = (msg) => { alertMessage = msg; };
+                            
+                            sendBtn.click();
+                            await delay(2000);
+                            
+                            frame.contentWindow.alert = originalAlert;
+                            
+                            assert(alertMessage !== null, '应弹出验证码提示');
+                            assert(alertMessage.includes('验证码'), `提示信息不正确：${alertMessage}`);
+                            
+                            assert(frame.contentWindow.smsCodeData.code.length === 6, 
+                                `验证码应为6位，实际为：${frame.contentWindow.smsCodeData.code}`);
+                        }
+                    },
+                    {
+                        id: 'tc021',
+                        title: '短信验证码验证通过',
+                        desc: '输入正确的验证码，验证应通过',
+                        run: async (frame) => {
+                            await waitForFrameLoad(frame);
+                            completeAllSteps(frame);
+                            goToStep(frame, 4);
+                            await delay(300);
+                            
+                            const phoneInput = frame.contentDocument.getElementById('phone');
+                            phoneInput.value = '13800138000';
+                            phoneInput.dispatchEvent(new Event('input', { bubbles: true }));
+                            
+                            const sendBtn = frame.contentDocument.getElementById('sendSmsBtn');
+                            const originalAlert = frame.contentWindow.alert;
+                            frame.contentWindow.alert = () => {};
+                            sendBtn.click();
+                            await delay(1500);
+                            frame.contentWindow.alert = originalAlert;
+                            
+                            const correctCode = frame.contentWindow.smsCodeData.code;
+                            const smsInput = frame.contentDocument.getElementById('smsCode');
+                            smsInput.value = correctCode;
+                            smsInput.dispatchEvent(new Event('input', { bubbles: true }));
+                            smsInput.dispatchEvent(new Event('blur', { bubbles: true }));
+                            
+                            await delay(100);
+                            
+                            const errorEl = frame.contentDocument.getElementById('smsError');
+                            assert(errorEl.style.display === 'none', 
+                                `正确验证码不应报错，实际显示：${errorEl.textContent}`);
+                        }
+                    },
+                    {
+                        id: 'tc022',
+                        title: '短信验证码错误验证失败',
+                        desc: '输入错误的验证码，应显示错误提示',
+                        run: async (frame) => {
+                            await waitForFrameLoad(frame);
+                            completeAllSteps(frame);
+                            goToStep(frame, 4);
+                            await delay(300);
+                            
+                            const phoneInput = frame.contentDocument.getElementById('phone');
+                            phoneInput.value = '13800138000';
+                            phoneInput.dispatchEvent(new Event('input', { bubbles: true }));
+                            
+                            const sendBtn = frame.contentDocument.getElementById('sendSmsBtn');
+                            const originalAlert = frame.contentWindow.alert;
+                            frame.contentWindow.alert = () => {};
+                            sendBtn.click();
+                            await delay(1500);
+                            frame.contentWindow.alert = originalAlert;
+                            
+                            const smsInput = frame.contentDocument.getElementById('smsCode');
+                            smsInput.value = '000000';
+                            smsInput.dispatchEvent(new Event('input', { bubbles: true }));
+                            smsInput.dispatchEvent(new Event('blur', { bubbles: true }));
+                            
+                            await delay(100);
+                            
+                            const errorEl = frame.contentDocument.getElementById('smsError');
+                            assert(errorEl.style.display !== 'none', '错误验证码应显示错误提示');
+                        }
+                    }
+                ]
+            },
+            {
+                name: '✅ 提交流程测试',
+                tests: [
+                    {
+                        id: 'tc023',
+                        title: '完整挂号流程 - 提交成功',
+                        desc: '完成所有步骤后提交，应成功并显示挂号单号',
+                        run: async (frame) => {
+                            await waitForFrameLoad(frame);
+                            clearFrameStorage(frame);
+                            completeAllSteps(frame);
+                            goToStep(frame, 4);
+                            await delay(300);
+                            
+                            fillForm(frame);
+                            
+                            const phoneInput = frame.contentDocument.getElementById('phone');
+                            phoneInput.value = '13800138000';
+                            phoneInput.dispatchEvent(new Event('input', { bubbles: true }));
+                            
+                            const sendBtn = frame.contentDocument.getElementById('sendSmsBtn');
+                            const originalAlert = frame.contentWindow.alert;
+                            frame.contentWindow.alert = () => {};
+                            sendBtn.click();
+                            await delay(1500);
+                            frame.contentWindow.alert = originalAlert;
+                            
+                            const correctCode = frame.contentWindow.smsCodeData.code;
+                            const smsInput = frame.contentDocument.getElementById('smsCode');
+                            smsInput.value = correctCode;
+                            smsInput.dispatchEvent(new Event('input', { bubbles: true }));
+                            
+                            await delay(300);
+                            
+                            const nextBtn = frame.contentDocument.getElementById('nextBtn');
+                            assert(nextBtn.disabled === false, '所有信息填写完成后按钮应可用');
+                            
+                            nextBtn.click();
+                            await delay(2000);
+                            
+                            const successPage = frame.contentDocument.getElementById('pageSuccess');
+                            assert(successPage.classList.contains('active'), '未跳转到成功页面');
+                            
+                            const bookingNo = frame.contentDocument.getElementById('bookingNumber').textContent;
+                            assert(bookingNo.length === 12, 
+                                `挂号单号应为12位，实际为${bookingNo.length}位：${bookingNo}`);
+                            
+                            const successTitle = frame.contentDocument.getElementById('successTitle').textContent;
+                            assert(successTitle === '挂号成功！', `标题应为"挂号成功！"，实际为"${successTitle}"`);
+                            
+                            const successName = frame.contentDocument.getElementById('successName').textContent;
+                            assert(successName === '张三', `姓名应为"张三"，实际为"${successName}"`);
+                        }
+                    },
+                    {
+                        id: 'tc024',
+                        title: '挂号单号格式正确',
+                        desc: '生成的挂号单号应为"日期(8位)+随机数(4位)"格式',
+                        run: async (frame) => {
+                            await waitForFrameLoad(frame);
+                            const bookingNo = frame.contentWindow.generateBookingNumber();
+                            
+                            assert(/^\d{12}$/.test(bookingNo), 
+                                `单号格式不正确：${bookingNo}`);
+                            
+                            const today = new Date();
+                            const datePrefix = today.getFullYear().toString() + 
+                                String(today.getMonth() + 1).padStart(2, '0') +
+                                String(today.getDate()).padStart(2, '0');
+                            
+                            assert(bookingNo.startsWith(datePrefix), 
+                                `单号前缀应为日期${datePrefix}，实际为：${bookingNo.substring(0, 8)}`);
+                        }
+                    },
+                    {
+                        id: 'tc025',
+                        title: '挂号成功后号源锁定',
+                        desc: '挂号成功后，该时段应被标记为不可用',
+                        run: async (frame) => {
+                            await waitForFrameLoad(frame);
+                            clearFrameStorage(frame);
+                            completeAllSteps(frame);
+                            goToStep(frame, 4);
+                            await delay(300);
+                            
+                            const selectedDoc = frame.contentWindow.selectedDoctor;
+                            const selectedDate = frame.contentWindow.selectedDate;
+                            const selectedTime = frame.contentWindow.selectedTime;
+                            
+                            fillForm(frame);
+                            
+                            const phoneInput = frame.contentDocument.getElementById('phone');
+                            phoneInput.value = '13800138000';
+                            phoneInput.dispatchEvent(new Event('input', { bubbles: true }));
+                            
+                            const sendBtn = frame.contentDocument.getElementById('sendSmsBtn');
+                            const originalAlert = frame.contentWindow.alert;
+                            frame.contentWindow.alert = () => {};
+                            sendBtn.click();
+                            await delay(1500);
+                            frame.contentWindow.alert = originalAlert;
+                            
+                            const correctCode = frame.contentWindow.smsCodeData.code;
+                            const smsInput = frame.contentDocument.getElementById('smsCode');
+                            smsInput.value = correctCode;
+                            smsInput.dispatchEvent(new Event('input', { bubbles: true }));
+                            
+                            await delay(300);
+                            
+                            frame.contentWindow.submitBooking();
+                            await delay(2000);
+                            
+                            const isBooked = frame.contentWindow.isSlotBooked(
+                                selectedDate.fullDate,
+                                selectedDoc.id,
+                                selectedTime.time
+                            );
+                            
+                            assert(isBooked === true, '挂号成功后号源未被锁定');
+                        }
+                    },
+                    {
+                        id: 'tc026',
+                        title: '挂号记录持久化存储',
+                        desc: '挂号成功后，记录应保存在localStorage中',
+                        run: async (frame) => {
+                            await waitForFrameLoad(frame);
+                            clearFrameStorage(frame);
+                            completeAllSteps(frame);
+                            goToStep(frame, 4);
+                            await delay(300);
+                            
+                            fillForm(frame);
+                            
+                            const phoneInput = frame.contentDocument.getElementById('phone');
+                            phoneInput.value = '13800138000';
+                            phoneInput.dispatchEvent(new Event('input', { bubbles: true }));
+                            
+                            const sendBtn = frame.contentDocument.getElementById('sendSmsBtn');
+                            const originalAlert = frame.contentWindow.alert;
+                            frame.contentWindow.alert = () => {};
+                            sendBtn.click();
+                            await delay(1500);
+                            frame.contentWindow.alert = originalAlert;
+                            
+                            const correctCode = frame.contentWindow.smsCodeData.code;
+                            const smsInput = frame.contentDocument.getElementById('smsCode');
+                            smsInput.value = correctCode;
+                            smsInput.dispatchEvent(new Event('input', { bubbles: true }));
+                            
+                            await delay(300);
+                            
+                            frame.contentWindow.submitBooking();
+                            await delay(2000);
+                            
+                            const records = frame.contentWindow.getBookingRecords();
+                            const recordCount = Object.keys(records).length;
+                            
+                            assert(recordCount > 0, '挂号记录未保存');
+                            
+                            const lastRecord = Object.values(records)[recordCount - 1];
+                            assert(lastRecord.name === '张三', `记录中姓名不正确：${lastRecord.name}`);
+                            assert(lastRecord.phone === '13800138000', `记录中手机号不正确：${lastRecord.phone}`);
+                        }
+                    }
+                ]
+            },
+            {
+                name: '📱 微信浏览器兼容性测试',
+                tests: [
+                    {
+                        id: 'tc027',
+                        title: '检测微信内置浏览器UA',
+                        desc: '验证是否正确识别微信内置浏览器',
+                        run: async (frame) => {
+                            await waitForFrameLoad(frame);
+                            
+                            const ua = navigator.userAgent.toLowerCase();
+                            const isWechat = ua.includes('micromessenger');
+                            
+                            updateUABadge();
+                            
+                            console.log(`当前UA: ${navigator.userAgent}`);
+                            console.log(`是否微信浏览器: ${isWechat}`);
+                            
+                            assert(true, 'UA检测完成');
+                        }
+                    },
+                    {
+                        id: 'tc028',
+                        title: '微信浏览器 - 身份证X输入兼容性',
+                        desc: '模拟微信浏览器环境，测试身份证X输入是否正常',
+                        run: async (frame) => {
+                            await waitForFrameLoad(frame);
+                            
+                            const originalUA = navigator.userAgent;
+                            
+                            if (document.getElementById('wechatUaToggle').classList.contains('active')) {
+                                Object.defineProperty(navigator, 'userAgent', {
+                                    value: 'Mozilla/5.0 (Linux; Android 10; MI 9 Build/QKQ1.190825.002; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/77.0.3865.120 MQQBrowser/6.2 TBS/045230 Mobile Safari/537.36 MMWEBID/8850 MicroMessenger/7.0.15.1680(0x27000F34) Process/toolsmp NetType/WIFI Language/zh_CN ABI/arm64',
+                                    configurable: true
+                                });
+                            }
+                            
+                            completeAllSteps(frame);
+                            goToStep(frame, 4);
+                            await delay(300);
+                            
+                            const idInput = frame.contentDocument.getElementById('idCard');
+                            
+                            idInput.value = '11010119900101123x';
+                            idInput.dispatchEvent(new Event('input', { bubbles: true }));
+                            idInput.dispatchEvent(new Event('keyup', { bubbles: true }));
+                            idInput.dispatchEvent(new Event('change', { bubbles: true }));
+                            idInput.dispatchEvent(new Event('blur', { bubbles: true }));
+                            
+                            await delay(200);
+                            
+                            const actualValue = idInput.value;
+                            assert(actualValue === '11010119900101123X', 
+                                `微信环境下x未转大写，实际值为"${actualValue}"`);
+                            
+                            const errorEl = frame.contentDocument.getElementById('idCardError');
+                            assert(errorEl.style.display === 'none', 
+                                `微信环境下验证失败：${errorEl.textContent}`);
+                            
+                            Object.defineProperty(navigator, 'userAgent', {
+                                value: originalUA,
+                                configurable: true
+                            });
+                        }
+                    },
+                    {
+                        id: 'tc029',
+                        title: '微信浏览器 - 表单提交流程',
+                        desc: '模拟微信浏览器环境，测试完整表单提交流程',
+                        run: async (frame) => {
+                            await waitForFrameLoad(frame);
+                            clearFrameStorage(frame);
+                            
+                            const originalUA = navigator.userAgent;
+                            
+                            if (document.getElementById('wechatUaToggle').classList.contains('active')) {
+                                Object.defineProperty(navigator, 'userAgent', {
+                                    value: 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_0 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15A372 MicroMessenger/7.0.15(0x17000f27) NetType/WIFI Language/zh_CN',
+                                    configurable: true
+                                });
+                            }
+                            
+                            completeAllSteps(frame);
+                            goToStep(frame, 4);
+                            await delay(300);
+                            
+                            fillForm(frame);
+                            
+                            const phoneInput = frame.contentDocument.getElementById('phone');
+                            phoneInput.value = '13800138000';
+                            phoneInput.dispatchEvent(new Event('input', { bubbles: true }));
+                            
+                            const sendBtn = frame.contentDocument.getElementById('sendSmsBtn');
+                            const originalAlert = frame.contentWindow.alert;
+                            frame.contentWindow.alert = () => {};
+                            sendBtn.click();
+                            await delay(1500);
+                            frame.contentWindow.alert = originalAlert;
+                            
+                            const correctCode = frame.contentWindow.smsCodeData.code;
+                            const smsInput = frame.contentDocument.getElementById('smsCode');
+                            smsInput.value = correctCode;
+                            smsInput.dispatchEvent(new Event('input', { bubbles: true }));
+                            
+                            await delay(300);
+                            
+                            const nextBtn = frame.contentDocument.getElementById('nextBtn');
+                            assert(nextBtn.disabled === false, '微信环境下按钮状态异常');
+                            
+                            nextBtn.click();
+                            await delay(2000);
+                            
+                            const successPage = frame.contentDocument.getElementById('pageSuccess');
+                            assert(successPage.classList.contains('active'), '微信环境下提交失败');
+                            
+                            const bookingNo = frame.contentDocument.getElementById('bookingNumber').textContent;
+                            assert(bookingNo.length === 12, 
+                                `微信环境下单号格式异常：${bookingNo}`);
+                            
+                            Object.defineProperty(navigator, 'userAgent', {
+                                value: originalUA,
+                                configurable: true
+                            });
+                        }
+                    }
+                ]
+            }
+        ];
+
+        let frame = null;
+
+        function init() {
+            frame = document.getElementById('testFrame');
+            updateUABadge();
+            renderTestSuites();
+            updateSummary();
+        }
+
+        function updateUABadge() {
+            const ua = navigator.userAgent.toLowerCase();
+            const isWechat = ua.includes('micromessenger');
+            const badge = document.getElementById('uaBadge');
+            const uaText = document.getElementById('uaText');
+            
+            if (isWechat) {
+                badge.textContent = '✓ 微信内置浏览器';
+                badge.className = 'ua-badge ua-wechat';
+            } else {
+                badge.textContent = '⚠ 非微信浏览器';
+                badge.className = 'ua-badge ua-other';
+            }
+            
+            uaText.textContent = navigator.userAgent;
+        }
+
+        function toggleWechatUA() {
+            const toggle = document.getElementById('wechatUaToggle');
+            toggle.classList.toggle('active');
+            
+            if (toggle.classList.contains('active')) {
+                alert('已开启微信UA模拟，运行测试时将使用微信浏览器UA');
+            }
+        }
+
+        function toggleSlotConflict() {
+            const toggle = document.getElementById('slotConflictToggle');
+            toggle.classList.toggle('active');
+            
+            if (toggle.classList.contains('active')) {
+                alert('已开启号源冲突模拟，测试时将自动模拟号源已约满');
+            }
+        }
+
+        function renderTestSuites() {
+            const container = document.getElementById('testSuitesContainer');
+            container.innerHTML = testSuites.map((suite, suiteIndex) => `
+                <div class="test-suite">
+                    <div class="test-suite-title">
+                        ${suite.name}
+                        <span style="font-size:14px;font-weight:normal;color:#6b7280;">
+                            ${suite.tests.length} 个用例
+                        </span>
+                    </div>
+                    ${suite.tests.map((test, testIndex) => `
+                        <div class="test-case pending" id="test-${test.id}" 
+                             data-suite="${suiteIndex}" data-test="${testIndex}">
+                            <div class="test-case-title">
+                                <span>${test.id} ${test.title}</span>
+                                <span class="test-case-status status-pending">待执行</span>
+                            </div>
+                            <div class="test-case-desc">${test.desc}</div>
+                            <div class="test-case-error"></div>
+                        </div>
+                    `).join('')}
+                </div>
+            `).join('');
+        }
+
+        async function runAllTests() {
+            const btn = document.getElementById('runAllBtn');
+            btn.disabled = true;
+            btn.textContent = '运行中...';
+            
+            resetTests();
+            
+            let passed = 0;
+            let failed = 0;
+            
+            for (const suite of testSuites) {
+                for (const test of suite.tests) {
+                    const testEl = document.getElementById(`test-${test.id}`);
+                    const statusEl = testEl.querySelector('.test-case-status');
+                    const errorEl = testEl.querySelector('.test-case-error');
+                    
+                    testEl.classList.remove('pending', 'passed', 'failed');
+                    testEl.classList.add('running');
+                    statusEl.textContent = '运行中';
+                    statusEl.className = 'test-case-status status-running';
+                    
+                    try {
+                        await test.run(frame);
+                        
+                        testEl.classList.remove('running');
+                        testEl.classList.add('passed');
+                        statusEl.textContent = '通过';
+                        statusEl.className = 'test-case-status status-passed';
+                        passed++;
+                    } catch (error) {
+                        testEl.classList.remove('running');
+                        testEl.classList.add('failed');
+                        statusEl.textContent = '失败';
+                        statusEl.className = 'test-case-status status-failed';
+                        errorEl.textContent = `❌ ${error.message}`;
+                        failed++;
+                    }
+                    
+                    updateSummary();
+                    await delay(200);
+                }
+            }
+            
+            btn.disabled = false;
+            btn.textContent = '▶ 运行所有测试';
+            
+            if (failed === 0) {
+                alert(`✅ 所有测试通过！共 ${passed} 个用例`);
+            } else {
+                alert(`⚠ 测试完成：通过 ${passed}，失败 ${failed}`);
+            }
+        }
+
+        function resetTests() {
+            document.querySelectorAll('.test-case').forEach(el => {
+                el.classList.remove('running', 'passed', 'failed');
+                el.classList.add('pending');
+                const statusEl = el.querySelector('.test-case-status');
+                statusEl.textContent = '待执行';
+                statusEl.className = 'test-case-status status-pending';
+                const errorEl = el.querySelector('.test-case-error');
+                errorEl.textContent = '';
+            });
+            updateSummary();
+        }
+
+        function updateSummary() {
+            const total = testSuites.reduce((sum, s) => sum + s.tests.length, 0);
+            const passed = document.querySelectorAll('.test-case.passed').length;
+            const failed = document.querySelectorAll('.test-case.failed').length;
+            const pending = document.querySelectorAll('.test-case.pending').length;
+            
+            document.getElementById('totalCount').textContent = total;
+            document.getElementById('passedCount').textContent = passed;
+            document.getElementById('failedCount').textContent = failed;
+            document.getElementById('pendingCount').textContent = pending;
+        }
+
+        function clearStorage() {
+            localStorage.removeItem('bookedSlots');
+            localStorage.removeItem('bookingRecords');
+            localStorage.removeItem('waitingList');
+            frame.contentWindow.localStorage.removeItem('bookedSlots');
+            frame.contentWindow.localStorage.removeItem('bookingRecords');
+            frame.contentWindow.localStorage.removeItem('waitingList');
+            alert('已清空所有存储数据');
+        }
+
+        function clearFrameStorage(frame) {
+            frame.contentWindow.localStorage.removeItem('bookedSlots');
+            frame.contentWindow.localStorage.removeItem('bookingRecords');
+            frame.contentWindow.localStorage.removeItem('waitingList');
+        }
+
+        function waitForFrameLoad(frame) {
+            return new Promise((resolve) => {
+                if (frame.contentDocument.readyState === 'complete') {
+                    resolve();
+                } else {
+                    frame.onload = () => resolve();
+                }
+            });
+        }
+
+        function delay(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
+        function assert(condition, message) {
+            if (!condition) {
+                throw new Error(message);
+            }
+        }
+
+        function resetPage(frame) {
+            frame.contentWindow.currentStep = 1;
+            frame.contentWindow.selectedDepartment = null;
+            frame.contentWindow.selectedDoctor = null;
+            frame.contentWindow.selectedDate = null;
+            frame.contentWindow.selectedTime = null;
+            frame.contentWindow.isWaitingList = false;
+            frame.contentWindow.showPage(1);
+            frame.contentWindow.updateProgress();
+            frame.contentWindow.updateNextButton();
+        }
+
+        function goToStep(frame, step) {
+            frame.contentWindow.currentStep = step;
+            frame.contentWindow.showPage(step);
+            frame.contentWindow.updateProgress();
+            frame.contentWindow.updateNextButton();
+            
+            if (step === 3) {
+                frame.contentWindow.renderTimeSlots();
+            }
+            if (step === 4) {
+                frame.contentWindow.updateSummary();
+            }
+        }
+
+        function completeStep1and2(frame) {
+            const deptCards = frame.contentDocument.querySelectorAll('#departmentGrid .card');
+            deptCards[0].click();
+            
+            setTimeout(() => {
+                const doctorCards = frame.contentDocument.querySelectorAll('#doctorGrid .card');
+                if (doctorCards.length > 0) {
+                    doctorCards[0].click();
+                }
+            }, 100);
+        }
+
+        function completeAllSteps(frame) {
+            clearFrameStorage(frame);
+            resetPage(frame);
+            
+            const deptCards = frame.contentDocument.querySelectorAll('#departmentGrid .card');
+            deptCards[0].click();
+            
+            setTimeout(() => {
+                const doctorCards = frame.contentDocument.querySelectorAll('#doctorGrid .card');
+                if (doctorCards.length > 0) {
+                    doctorCards[0].click();
+                }
+                
+                setTimeout(() => {
+                    const dateCards = frame.contentDocument.querySelectorAll('#dateSlider .date-card');
+                    if (dateCards.length > 0) {
+                        dateCards[0].click();
+                    }
+                    
+                    setTimeout(() => {
+                        const timeSlots = frame.contentDocument.querySelectorAll('.time-slot:not(.disabled)');
+                        if (timeSlots.length > 0) {
+                            timeSlots[0].click();
+                        }
+                    }, 100);
+                }, 100);
+            }, 100);
+        }
+
+        function fillForm(frame) {
+            const nameInput = frame.contentDocument.getElementById('patientName');
+            nameInput.value = '张三';
+            nameInput.dispatchEvent(new Event('input', { bubbles: true }));
+            
+            const idInput = frame.contentDocument.getElementById('idCard');
+            idInput.value = '11010119900101123X';
+            idInput.dispatchEvent(new Event('input', { bubbles: true }));
+            idInput.dispatchEvent(new Event('blur', { bubbles: true }));
+            
+            const phoneInput = frame.contentDocument.getElementById('phone');
+            phoneInput.value = '13800138000';
+            phoneInput.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+
+        init();
+    </script>
+</body>
+</html>

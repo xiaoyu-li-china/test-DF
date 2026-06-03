@@ -1,0 +1,1628 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>社区诊所挂号</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Helvetica Neue", sans-serif;
+            background: #f5f7fa;
+            color: #1a1a1a;
+            font-size: 22px;
+            line-height: 1.8;
+            min-height: 100vh;
+            padding-bottom: 120px;
+        }
+
+        .header {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+            padding: 30px 24px;
+            text-align: center;
+            font-size: 30px;
+            font-weight: bold;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .progress-bar {
+            display: flex;
+            justify-content: space-between;
+            padding: 24px;
+            background: white;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        }
+
+        .step {
+            flex: 1;
+            text-align: center;
+            position: relative;
+            font-size: 18px;
+            color: #9ca3af;
+        }
+
+        .step .circle {
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background: #e5e7eb;
+            color: #6b7280;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 8px;
+            font-size: 22px;
+            font-weight: bold;
+            transition: all 0.3s;
+        }
+
+        .step.active .circle {
+            background: #2563eb;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .step.completed .circle {
+            background: #10b981;
+            color: white;
+        }
+
+        .step.active {
+            color: #2563eb;
+            font-weight: bold;
+        }
+
+        .step.completed {
+            color: #10b981;
+        }
+
+        .step:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            top: 22px;
+            right: -50%;
+            width: 100%;
+            height: 4px;
+            background: #e5e7eb;
+            z-index: -1;
+        }
+
+        .step.completed:not(:last-child)::after {
+            background: #10b981;
+        }
+
+        .container {
+            padding: 24px;
+        }
+
+        .section-title {
+            font-size: 26px;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 20px;
+            padding-left: 16px;
+            border-left: 6px solid #2563eb;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .card {
+            background: white;
+            border: 3px solid #e5e7eb;
+            border-radius: 16px;
+            padding: 24px 16px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 22px;
+            font-weight: 500;
+            color: #374151;
+            min-height: 100px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .card:hover {
+            border-color: #2563eb;
+            background: #eff6ff;
+        }
+
+        .card.selected {
+            border-color: #2563eb;
+            background: #dbeafe;
+            color: #1d4ed8;
+            font-weight: bold;
+            transform: scale(1.02);
+            box-shadow: 0 4px 16px rgba(37, 99, 235, 0.2);
+        }
+
+        .card .icon {
+            font-size: 36px;
+        }
+
+        .card .subtitle {
+            font-size: 16px;
+            color: #6b7280;
+            font-weight: normal;
+        }
+
+        .card.selected .subtitle {
+            color: #2563eb;
+        }
+
+        .doctor-card {
+            text-align: left;
+            align-items: flex-start;
+            padding: 20px;
+        }
+
+        .doctor-card .doctor-info {
+            width: 100%;
+        }
+
+        .doctor-card .doctor-name {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .doctor-card .doctor-title {
+            font-size: 18px;
+            color: #6b7280;
+            margin-bottom: 8px;
+        }
+
+        .doctor-card .doctor-desc {
+            font-size: 16px;
+            color: #9ca3af;
+            line-height: 1.5;
+        }
+
+        .date-slider {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 8px 4px;
+            margin-bottom: 24px;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none;
+        }
+
+        .date-slider::-webkit-scrollbar {
+            display: none;
+        }
+
+        .date-card {
+            flex-shrink: 0;
+            min-width: 90px;
+            background: white;
+            border: 3px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 16px 12px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .date-card:hover {
+            border-color: #2563eb;
+        }
+
+        .date-card.selected {
+            border-color: #2563eb;
+            background: #dbeafe;
+            color: #1d4ed8;
+            font-weight: bold;
+        }
+
+        .date-card .weekday {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .date-card .date {
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .date-card .month {
+            font-size: 14px;
+            color: #9ca3af;
+        }
+
+        .date-card.selected .month {
+            color: #2563eb;
+        }
+
+        .time-section {
+            margin-bottom: 24px;
+        }
+
+        .time-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: #374151;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .time-title .period-icon {
+            font-size: 24px;
+        }
+
+        .time-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 12px;
+        }
+
+        .time-slot {
+            background: white;
+            border: 3px solid #e5e7eb;
+            border-radius: 12px;
+            padding: 16px 8px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 20px;
+            font-weight: 500;
+        }
+
+        .time-slot:hover:not(.disabled) {
+            border-color: #2563eb;
+            background: #eff6ff;
+        }
+
+        .time-slot.selected {
+            border-color: #2563eb;
+            background: #dbeafe;
+            color: #1d4ed8;
+            font-weight: bold;
+        }
+
+        .time-slot.disabled {
+            background: #f3f4f6;
+            color: #d1d5db;
+            cursor: not-allowed;
+            border-color: #e5e7eb;
+            text-decoration: line-through;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 22px;
+            font-weight: bold;
+            color: #374151;
+            margin-bottom: 12px;
+        }
+
+        .form-label .required {
+            color: #ef4444;
+            margin-left: 4px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 20px 16px;
+            font-size: 22px;
+            border: 3px solid #e5e7eb;
+            border-radius: 12px;
+            background: white;
+            color: #1f2937;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #2563eb;
+            background: #eff6ff;
+        }
+
+        .form-input::placeholder {
+            color: #9ca3af;
+            font-size: 20px;
+        }
+
+        .form-hint {
+            font-size: 16px;
+            color: #6b7280;
+            margin-top: 8px;
+        }
+
+        .error-message {
+            color: #dc2626;
+            font-size: 18px;
+            margin-top: 8px;
+            background: #fef2f2;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border-left: 4px solid #ef4444;
+        }
+
+        .summary-card {
+            background: white;
+            border-radius: 16px;
+            padding: 24px;
+            margin-bottom: 24px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        }
+
+        .summary-title {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e5e7eb;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 12px 0;
+            font-size: 20px;
+            border-bottom: 1px solid #f3f4f6;
+        }
+
+        .summary-row:last-child {
+            border-bottom: none;
+        }
+
+        .summary-label {
+            color: #6b7280;
+        }
+
+        .summary-value {
+            color: #1f2937;
+            font-weight: 600;
+            text-align: right;
+            max-width: 60%;
+            word-break: break-all;
+        }
+
+        .btn-group {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 24px;
+            background: white;
+            box-shadow: 0 -4px 16px rgba(0, 0, 0, 0.1);
+            display: flex;
+            gap: 16px;
+            z-index: 100;
+        }
+
+        .btn {
+            flex: 1;
+            padding: 20px;
+            font-size: 24px;
+            font-weight: bold;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-family: inherit;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+        }
+
+        .btn-primary:disabled {
+            background: #9ca3af;
+            cursor: not-allowed;
+            box-shadow: none;
+        }
+
+        .btn-secondary {
+            background: #f3f4f6;
+            color: #374151;
+            border: 3px solid #e5e7eb;
+        }
+
+        .btn-secondary:hover {
+            background: #e5e7eb;
+        }
+
+        .success-container {
+            text-align: center;
+            padding: 40px 24px;
+        }
+
+        .success-icon {
+            width: 120px;
+            height: 120px;
+            background: #dcfce7;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 24px;
+            font-size: 72px;
+            color: #16a34a;
+        }
+
+        .success-title {
+            font-size: 32px;
+            font-weight: bold;
+            color: #1f2937;
+            margin-bottom: 12px;
+        }
+
+        .success-subtitle {
+            font-size: 20px;
+            color: #6b7280;
+            margin-bottom: 32px;
+        }
+
+        .booking-number {
+            background: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+            color: white;
+            padding: 24px;
+            border-radius: 16px;
+            margin-bottom: 24px;
+        }
+
+        .booking-number-label {
+            font-size: 18px;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+
+        .booking-number-value {
+            font-size: 42px;
+            font-weight: bold;
+            letter-spacing: 4px;
+        }
+
+        .tips-card {
+            background: #fffbeb;
+            border: 2px solid #fcd34d;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: left;
+            margin-bottom: 24px;
+        }
+
+        .tips-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #92400e;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .tips-content {
+            font-size: 18px;
+            color: #78350f;
+            line-height: 1.8;
+        }
+
+        .tips-content li {
+            margin-bottom: 8px;
+            margin-left: 20px;
+        }
+
+        .page {
+            display: none;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(255, 255, 255, 0.95);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            z-index: 1000;
+        }
+
+        .loading.show {
+            display: flex;
+        }
+
+        .loading-spinner {
+            width: 60px;
+            height: 60px;
+            border: 5px solid #e5e7eb;
+            border-top-color: #2563eb;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 20px;
+        }
+
+        .loading-text {
+            font-size: 22px;
+            color: #374151;
+            font-weight: 500;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="header">社区诊所挂号</div>
+
+    <div class="progress-bar">
+        <div class="step active" data-step="1">
+            <div class="circle">1</div>
+            <div>选科室</div>
+        </div>
+        <div class="step" data-step="2">
+            <div class="circle">2</div>
+            <div>选医生</div>
+        </div>
+        <div class="step" data-step="3">
+            <div class="circle">3</div>
+            <div>选时间</div>
+        </div>
+        <div class="step" data-step="4">
+            <div class="circle">4</div>
+            <div>填信息</div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="page active" id="page1">
+            <div class="section-title">复诊快捷入口</div>
+            <div class="summary-card" style="margin-bottom: 24px;">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">输入上次挂号单号</label>
+                    <div style="display: flex; gap: 12px;">
+                        <input type="text" class="form-input" id="quickBookingNo" 
+                               placeholder="请输入12位挂号单号" maxlength="12" 
+                               style="flex: 1;">
+                        <button class="btn btn-primary" id="quickSearchBtn" 
+                                style="flex-shrink: 0; padding: 0 24px; font-size: 20px;"
+                                onclick="quickSearchBooking()">
+                            查询
+                        </button>
+                    </div>
+                    <div class="error-message" id="quickSearchError" style="display: none; margin-top: 12px;"></div>
+                </div>
+            </div>
+
+            <div class="section-title">请选择就诊科室</div>
+            <div class="grid" id="departmentGrid"></div>
+        </div>
+
+        <div class="page" id="page2">
+            <div class="section-title">请选择医生</div>
+            <div class="grid" id="doctorGrid"></div>
+        </div>
+
+        <div class="page" id="page3">
+            <div class="section-title">请选择就诊日期</div>
+            <div class="date-slider" id="dateSlider"></div>
+            
+            <div class="section-title">请选择时段</div>
+            <div id="timeSlotsContainer"></div>
+        </div>
+
+        <div class="page" id="page4">
+            <div class="section-title">预约信息确认</div>
+            <div class="summary-card">
+                <div class="summary-title">挂号信息</div>
+                <div class="summary-row">
+                    <span class="summary-label">就诊科室</span>
+                    <span class="summary-value" id="summaryDept"></span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">接诊医生</span>
+                    <span class="summary-value" id="summaryDoctor"></span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">就诊日期</span>
+                    <span class="summary-value" id="summaryDate"></span>
+                </div>
+                <div class="summary-row">
+                    <span class="summary-label">就诊时段</span>
+                    <span class="summary-value" id="summaryTime"></span>
+                </div>
+            </div>
+
+            <div class="section-title">请填写个人信息</div>
+            
+            <div class="form-group">
+                <label class="form-label">
+                    姓名<span class="required">*</span>
+                </label>
+                <input type="text" class="form-input" id="patientName" 
+                       placeholder="请输入您的真实姓名" maxlength="20">
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">
+                    身份证号<span class="required">*</span>
+                </label>
+                <input type="text" class="form-input" id="idCard" 
+                       placeholder="请输入18位身份证号码" maxlength="18">
+                <div class="form-hint">请仔细核对，用于医保结算</div>
+                <div class="error-message" id="idCardError" style="display: none;"></div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">
+                    手机号<span class="required">*</span>
+                </label>
+                <input type="tel" class="form-input" id="phone" 
+                       placeholder="请输入11位手机号码" maxlength="11">
+                <div class="form-hint">用于接收挂号提醒通知</div>
+                <div class="error-message" id="phoneError" style="display: none;"></div>
+            </div>
+
+            <div class="form-group">
+                <label class="form-label">
+                    短信验证码<span class="required">*</span>
+                </label>
+                <div style="display: flex; gap: 12px;">
+                    <input type="text" class="form-input" id="smsCode" 
+                           placeholder="请输入6位验证码" maxlength="6"
+                           style="flex: 1;">
+                    <button class="btn btn-secondary" id="sendSmsBtn" 
+                            style="flex-shrink: 0; padding: 0 20px; font-size: 18px; white-space: nowrap;"
+                            onclick="sendSmsCode()">
+                        获取验证码
+                    </button>
+                </div>
+                <div class="form-hint" id="smsHint">请先输入手机号，再获取验证码</div>
+                <div class="error-message" id="smsError" style="display: none;"></div>
+            </div>
+
+            <div id="waitingListNotice" style="display: none; margin-bottom: 24px;">
+                <div class="tips-card" style="background: #fef3c7; border-color: #f59e0b;">
+                    <div class="tips-title" style="color: #92400e;">
+                        <span>⏳</span>
+                        候补挂号提示
+                    </div>
+                    <div class="tips-content" style="color: #78350f;">
+                        当前时段已约满，您正在进行候补挂号。如有号源释放，我们将第一时间短信通知您。
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="page" id="pageSuccess">
+            <div class="success-container">
+                <div class="success-icon" id="successIcon">✓</div>
+                <div class="success-title" id="successTitle">挂号成功！</div>
+                <div class="success-subtitle" id="successSubtitle">请按时就诊，祝您健康</div>
+                
+                <div class="booking-number">
+                    <div class="booking-number-label" id="bookingNumberLabel">您的挂号单号</div>
+                    <div class="booking-number-value" id="bookingNumber"></div>
+                </div>
+
+                <div class="summary-card">
+                    <div class="summary-title">挂号详情</div>
+                    <div class="summary-row">
+                        <span class="summary-label">挂号类型</span>
+                        <span class="summary-value" id="successType">普通挂号</span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">就诊科室</span>
+                        <span class="summary-value" id="successDept"></span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">接诊医生</span>
+                        <span class="summary-value" id="successDoctor"></span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">就诊时间</span>
+                        <span class="summary-value" id="successDateTime"></span>
+                    </div>
+                    <div class="summary-row">
+                        <span class="summary-label">患者姓名</span>
+                        <span class="summary-value" id="successName"></span>
+                    </div>
+                </div>
+
+                <div class="tips-card" id="normalTips">
+                    <div class="tips-title">
+                        <span>⚠️</span>
+                        就诊须知
+                    </div>
+                    <div class="tips-content">
+                        <ul>
+                            <li>请提前15分钟到诊所取号</li>
+                            <li>携带身份证、医保卡等有效证件</li>
+                            <li>如需取消请提前24小时操作</li>
+                            <li>联系电话：400-123-4567</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="tips-card" id="waitingTips" style="display: none; background: #fef3c7; border-color: #f59e0b;">
+                    <div class="tips-title" style="color: #92400e;">
+                        <span>⏳</span>
+                        候补挂号须知
+                    </div>
+                    <div class="tips-content" style="color: #78350f;">
+                        <ul>
+                            <li>当前时段已约满，您已加入候补队列</li>
+                            <li>候补助手将自动为您监控号源</li>
+                            <li>如有号源释放，将第一时间短信通知您</li>
+                            <li>候补成功后无需再次操作，直接就诊即可</li>
+                            <li>联系电话：400-123-4567</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <button class="btn btn-primary" onclick="location.reload()">
+                    返回首页
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="btn-group" id="btnGroup">
+        <button class="btn btn-secondary" id="prevBtn" style="display: none;" onclick="prevStep()">
+            上一步
+        </button>
+        <button class="btn btn-primary" id="nextBtn" onclick="nextStep()" disabled>
+            下一步
+        </button>
+    </div>
+
+    <div class="loading" id="loading">
+        <div class="loading-spinner"></div>
+        <div class="loading-text" id="loadingText">处理中...</div>
+    </div>
+
+    <script>
+        const departments = [
+            { id: 1, name: '内科', icon: '🫀', desc: '常见病诊治' },
+            { id: 2, name: '外科', icon: '🩹', desc: '外伤手术' },
+            { id: 3, name: '儿科', icon: '👶', desc: '儿童保健' },
+            { id: 4, name: '妇科', icon: '👩', desc: '妇科疾病' },
+            { id: 5, name: '中医科', icon: '🌿', desc: '中医调理' },
+            { id: 6, name: '口腔科', icon: '🦷', desc: '牙齿诊疗' },
+            { id: 7, name: '眼科', icon: '👁️', desc: '视力检查' },
+            { id: 8, name: '皮肤科', icon: '🧴', desc: '皮肤疾病' }
+        ];
+
+        const doctors = {
+            1: [
+                { id: 101, name: '张医生', title: '主任医师', desc: '从医30年，擅长心脑血管疾病' },
+                { id: 102, name: '李医生', title: '副主任医师', desc: '擅长呼吸系统疾病诊治' },
+                { id: 103, name: '王医生', title: '主治医师', desc: '擅长消化系统疾病' }
+            ],
+            2: [
+                { id: 201, name: '赵医生', title: '主任医师', desc: '擅长普外科手术' },
+                { id: 202, name: '钱医生', title: '副主任医师', desc: '擅长骨科疾病诊治' }
+            ],
+            3: [
+                { id: 301, name: '孙医生', title: '主任医师', desc: '擅长小儿呼吸系统疾病' },
+                { id: 302, name: '周医生', title: '副主任医师', desc: '擅长儿童生长发育评估' }
+            ],
+            4: [
+                { id: 401, name: '吴医生', title: '主任医师', desc: '擅长妇科常见病诊治' },
+                { id: 402, name: '郑医生', title: '主治医师', desc: '擅长孕产妇保健' }
+            ],
+            5: [
+                { id: 501, name: '冯医生', title: '主任医师', desc: '从医40年，中医调理专家' },
+                { id: 502, name: '陈医生', title: '副主任医师', desc: '擅长针灸推拿' }
+            ],
+            6: [
+                { id: 601, name: '褚医生', title: '主任医师', desc: '擅长口腔修复、正畸' },
+                { id: 602, name: '卫医生', title: '主治医师', desc: '擅长拔牙、补牙' }
+            ],
+            7: [
+                { id: 701, name: '蒋医生', title: '主任医师', desc: '擅长白内障、青光眼' },
+                { id: 702, name: '沈医生', title: '主治医师', desc: '擅长验光配镜' }
+            ],
+            8: [
+                { id: 801, name: '韩医生', title: '主任医师', desc: '擅长过敏性皮肤病' },
+                { id: 802, name: '杨医生', title: '副主任医师', desc: '擅长痤疮、湿疹治疗' }
+            ]
+        };
+
+        const timeSlots = {
+            morning: {
+                title: '上午',
+                icon: '☀️',
+                slots: [
+                    { time: '08:00', available: true },
+                    { time: '08:30', available: true },
+                    { time: '09:00', available: false },
+                    { time: '09:30', available: true },
+                    { time: '10:00', available: true },
+                    { time: '10:30', available: false },
+                    { time: '11:00', available: true },
+                    { time: '11:30', available: true }
+                ]
+            },
+            afternoon: {
+                title: '下午',
+                icon: '🌤️',
+                slots: [
+                    { time: '14:00', available: true },
+                    { time: '14:30', available: true },
+                    { time: '15:00', available: true },
+                    { time: '15:30', available: false },
+                    { time: '16:00', available: true },
+                    { time: '16:30', available: true },
+                    { time: '17:00', available: true }
+                ]
+            }
+        };
+
+        let currentStep = 1;
+        const totalSteps = 4;
+        let selectedDepartment = null;
+        let selectedDoctor = null;
+        let selectedDate = null;
+        let selectedTime = null;
+        let isWaitingList = false;
+        let smsCodeData = { code: '', expireTime: 0, phone: '' };
+        let smsCountdown = 0;
+        let smsTimer = null;
+
+        function getBookedSlots() {
+            const booked = localStorage.getItem('bookedSlots');
+            return booked ? JSON.parse(booked) : {};
+        }
+
+        function isSlotBooked(date, doctorId, time) {
+            const booked = getBookedSlots();
+            const key = `${date}_${doctorId}_${time}`;
+            return !!booked[key];
+        }
+
+        function markSlotBooked(date, doctorId, time) {
+            const booked = getBookedSlots();
+            const key = `${date}_${doctorId}_${time}`;
+            booked[key] = {
+                timestamp: Date.now(),
+                date,
+                doctorId,
+                time
+            };
+            localStorage.setItem('bookedSlots', JSON.stringify(booked));
+        }
+
+        function getBookingRecords() {
+            const records = localStorage.getItem('bookingRecords');
+            return records ? JSON.parse(records) : {};
+        }
+
+        function saveBookingRecord(bookingNo, data) {
+            const records = getBookingRecords();
+            records[bookingNo] = {
+                ...data,
+                bookingNo,
+                createTime: Date.now()
+            };
+            localStorage.setItem('bookingRecords', JSON.stringify(records));
+        }
+
+        function getBookingRecord(bookingNo) {
+            const records = getBookingRecords();
+            return records[bookingNo] || null;
+        }
+
+        function getWaitingList() {
+            const list = localStorage.getItem('waitingList');
+            return list ? JSON.parse(list) : {};
+        }
+
+        function addToWaitingList(date, doctorId, time, phone, name) {
+            const list = getWaitingList();
+            const key = `${date}_${doctorId}_${time}`;
+            if (!list[key]) {
+                list[key] = [];
+            }
+            const queueNo = list[key].length + 1;
+            list[key].push({
+                phone,
+                name,
+                queueNo,
+                createTime: Date.now()
+            });
+            localStorage.setItem('waitingList', JSON.stringify(list));
+            return queueNo;
+        }
+
+        function quickSearchBooking() {
+            const bookingNo = document.getElementById('quickBookingNo').value.trim();
+            const errorEl = document.getElementById('quickSearchError');
+            
+            if (!bookingNo) {
+                errorEl.textContent = '请输入挂号单号';
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            if (bookingNo.length !== 12) {
+                errorEl.textContent = '请输入正确的12位挂号单号';
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            const record = getBookingRecord(bookingNo);
+            if (!record) {
+                errorEl.textContent = '未找到该挂号记录，请检查单号是否正确';
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            errorEl.style.display = 'none';
+            
+            const dept = departments.find(d => d.id === record.departmentId);
+            const docList = doctors[record.departmentId] || [];
+            const doc = docList.find(d => d.id === record.doctorId);
+
+            if (dept && doc) {
+                selectedDepartment = dept;
+                selectedDoctor = doc;
+                
+                showLoading('正在查询历史记录...');
+                
+                setTimeout(() => {
+                    document.querySelectorAll('#departmentGrid .card').forEach(card => {
+                        card.classList.remove('selected');
+                        if (parseInt(card.dataset.deptId) === dept.id) {
+                            card.classList.add('selected');
+                        }
+                    });
+                    renderDoctors(dept.id);
+                    
+                    setTimeout(() => {
+                        document.querySelectorAll('#doctorGrid .card').forEach(card => {
+                            card.classList.remove('selected');
+                            if (parseInt(card.dataset.doctorId) === doc.id) {
+                                card.classList.add('selected');
+                            }
+                        });
+                        
+                        currentStep = 2;
+                        showPage(2);
+                        updateProgress();
+                        updateNextButton();
+                        document.getElementById('prevBtn').style.display = 'block';
+                        hideLoading();
+                    }, 300);
+                }, 500);
+            } else {
+                errorEl.textContent = '挂号记录数据异常，请重新选择科室';
+                errorEl.style.display = 'block';
+            }
+        }
+
+        function sendSmsCode() {
+            const phone = document.getElementById('phone').value.trim();
+            const phoneError = document.getElementById('phoneError');
+            const smsError = document.getElementById('smsError');
+            const smsBtn = document.getElementById('sendSmsBtn');
+
+            const regex = /^1[3-9]\d{9}$/;
+            if (!regex.test(phone)) {
+                phoneError.textContent = '请输入正确的11位手机号码';
+                phoneError.style.display = 'block';
+                return;
+            }
+            phoneError.style.display = 'none';
+
+            if (smsCountdown > 0) {
+                return;
+            }
+
+            smsBtn.disabled = true;
+            smsBtn.textContent = '发送中...';
+            smsError.style.display = 'none';
+
+            setTimeout(() => {
+                const code = Math.floor(100000 + Math.random() * 900000).toString();
+                smsCodeData = {
+                    code,
+                    expireTime: Date.now() + 5 * 60 * 1000,
+                    phone
+                };
+                
+                smsCountdown = 60;
+                smsBtn.textContent = `${smsCountdown}秒后重发`;
+                
+                smsTimer = setInterval(() => {
+                    smsCountdown--;
+                    if (smsCountdown <= 0) {
+                        clearInterval(smsTimer);
+                        smsBtn.disabled = false;
+                        smsBtn.textContent = '获取验证码';
+                    } else {
+                        smsBtn.textContent = `${smsCountdown}秒后重发`;
+                    }
+                }, 1000);
+
+                alert(`验证码已发送到 ${phone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2')}，验证码：${code}（5分钟内有效）`);
+                document.getElementById('smsHint').textContent = `验证码已发送，5分钟内有效`;
+            }, 1000);
+        }
+
+        function validateSmsCode() {
+            const inputCode = document.getElementById('smsCode').value.trim();
+            const errorEl = document.getElementById('smsError');
+            
+            if (!inputCode) {
+                errorEl.textContent = '请输入验证码';
+                errorEl.style.display = 'block';
+                return false;
+            }
+
+            if (inputCode.length !== 6) {
+                errorEl.textContent = '请输入6位验证码';
+                errorEl.style.display = 'block';
+                return false;
+            }
+
+            if (Date.now() > smsCodeData.expireTime) {
+                errorEl.textContent = '验证码已过期，请重新获取';
+                errorEl.style.display = 'block';
+                return false;
+            }
+
+            if (inputCode !== smsCodeData.code) {
+                errorEl.textContent = '验证码错误，请重新输入';
+                errorEl.style.display = 'block';
+                return false;
+            }
+
+            const phone = document.getElementById('phone').value.trim();
+            if (phone !== smsCodeData.phone) {
+                errorEl.textContent = '手机号与验证码不匹配';
+                errorEl.style.display = 'block';
+                return false;
+            }
+
+            errorEl.style.display = 'none';
+            return true;
+        }
+
+        function init() {
+            renderDepartments();
+            renderDates();
+            renderTimeSlots();
+            addEventListeners();
+        }
+
+        function renderDepartments() {
+            const grid = document.getElementById('departmentGrid');
+            grid.innerHTML = departments.map(dept => `
+                <div class="card" data-dept-id="${dept.id}" onclick="selectDepartment(${dept.id})">
+                    <div class="icon">${dept.icon}</div>
+                    <div>${dept.name}</div>
+                    <div class="subtitle">${dept.desc}</div>
+                </div>
+            `).join('');
+        }
+
+        function renderDoctors(deptId) {
+            const grid = document.getElementById('doctorGrid');
+            const doctorList = doctors[deptId] || [];
+            grid.innerHTML = doctorList.map(doc => `
+                <div class="card doctor-card" data-doctor-id="${doc.id}" onclick="selectDoctor(${doc.id})">
+                    <div class="doctor-info">
+                        <div class="doctor-name">${doc.name}</div>
+                        <div class="doctor-title">${doc.title}</div>
+                        <div class="doctor-desc">${doc.desc}</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function renderDates() {
+            const slider = document.getElementById('dateSlider');
+            const dates = [];
+            const today = new Date();
+            const weekdays = ['周日', '周一', '周二', '周三', '周四', '周五', '周六'];
+
+            for (let i = 0; i < 14; i++) {
+                const date = new Date(today);
+                date.setDate(today.getDate() + i);
+                dates.push({
+                    date: date.getDate(),
+                    month: date.getMonth() + 1,
+                    weekday: i === 0 ? '今天' : i === 1 ? '明天' : weekdays[date.getDay()],
+                    fullDate: `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`,
+                    dayOfWeek: date.getDay()
+                });
+            }
+
+            slider.innerHTML = dates.map((d, index) => `
+                <div class="date-card" data-date="${d.fullDate}" onclick="selectDate('${d.fullDate}', '${d.weekday}', ${d.month}, ${d.date})">
+                    <div class="weekday">${d.weekday}</div>
+                    <div class="date">${d.date}</div>
+                    <div class="month">${d.month}月</div>
+                </div>
+            `).join('');
+        }
+
+        function renderTimeSlots() {
+            const container = document.getElementById('timeSlotsContainer');
+            if (!selectedDate || !selectedDoctor) {
+                container.innerHTML = '<div style="color:#6b7280;font-size:20px;text-align:center;padding:40px;">请先选择日期和医生</div>';
+                return;
+            }
+
+            let html = '';
+
+            Object.keys(timeSlots).forEach(key => {
+                const period = timeSlots[key];
+                html += `
+                    <div class="time-section">
+                        <div class="time-title">
+                            <span class="period-icon">${period.icon}</span>
+                            ${period.title}
+                        </div>
+                        <div class="time-grid">
+                            ${period.slots.map(slot => {
+                                const isBooked = isSlotBooked(selectedDate.fullDate, selectedDoctor.id, slot.time);
+                                const isDisabled = !slot.available || isBooked;
+                                const waitingList = getWaitingList();
+                                const waitingKey = `${selectedDate.fullDate}_${selectedDoctor.id}_${slot.time}`;
+                                const waitingCount = (waitingList[waitingKey] || []).length;
+                                
+                                if (isBooked) {
+                                    return `
+                                <div class="time-slot disabled" 
+                                     data-time="${slot.time}" 
+                                     style="background: #fffbeb; border-color: #fcd34d; color: #92400e; cursor: pointer;"
+                                     onclick="selectWaitingTime('${slot.time}', '${period.title}')">
+                                    ${slot.time}
+                                    <br><span style="font-size:14px; color: #b45309;">候补(${waitingCount}人)</span>
+                                    <br><span style="font-size:12px; color: #d97706;">点击候补</span>
+                                </div>
+                            `;
+                                } else if (!slot.available) {
+                                    return `
+                                <div class="time-slot disabled" 
+                                     data-time="${slot.time}">
+                                    ${slot.time}
+                                </div>
+                            `;
+                                } else {
+                                    return `
+                                <div class="time-slot" 
+                                     data-time="${slot.time}" 
+                                     onclick="selectTime('${slot.time}', '${period.title}')">
+                                    ${slot.time}
+                                </div>
+                            `;
+                                }
+                            }).join('')}
+                        </div>
+                    </div>
+                `;
+            });
+
+            container.innerHTML = html;
+        }
+
+        function selectWaitingTime(time, period) {
+            selectedTime = { time, period, display: `${period} ${time}` };
+            isWaitingList = true;
+            
+            document.querySelectorAll('#timeSlotsContainer .time-slot').forEach(slot => {
+                slot.classList.remove('selected');
+                if (slot.dataset.time === time) {
+                    slot.classList.add('selected');
+                    slot.style.background = '#fef3c7';
+                    slot.style.borderColor = '#f59e0b';
+                    slot.style.color = '#92400e';
+                }
+            });
+            
+            updateNextButton();
+        }
+
+        function selectDepartment(id) {
+            selectedDepartment = departments.find(d => d.id === id);
+            document.querySelectorAll('#departmentGrid .card').forEach(card => {
+                card.classList.remove('selected');
+                if (parseInt(card.dataset.deptId) === id) {
+                    card.classList.add('selected');
+                }
+            });
+            renderDoctors(id);
+            updateNextButton();
+        }
+
+        function selectDoctor(id) {
+            const docList = doctors[selectedDepartment.id] || [];
+            selectedDoctor = docList.find(d => d.id === id);
+            document.querySelectorAll('#doctorGrid .card').forEach(card => {
+                card.classList.remove('selected');
+                if (parseInt(card.dataset.doctorId) === id) {
+                    card.classList.add('selected');
+                }
+            });
+            renderTimeSlots();
+            updateNextButton();
+        }
+
+        function selectDate(fullDate, weekday, month, day) {
+            selectedDate = { fullDate, weekday, month, day, display: `${weekday} ${month}月${day}日` };
+            document.querySelectorAll('#dateSlider .date-card').forEach(card => {
+                card.classList.remove('selected');
+                if (card.dataset.date === fullDate) {
+                    card.classList.add('selected');
+                }
+            });
+            renderTimeSlots();
+            updateNextButton();
+        }
+
+        function selectTime(time, period) {
+            selectedTime = { time, period, display: `${period} ${time}` };
+            isWaitingList = false;
+            document.querySelectorAll('#timeSlotsContainer .time-slot').forEach(slot => {
+                slot.classList.remove('selected');
+                slot.style.background = '';
+                slot.style.borderColor = '';
+                slot.style.color = '';
+                if (slot.dataset.time === time && !slot.classList.contains('disabled')) {
+                    slot.classList.add('selected');
+                }
+            });
+            updateNextButton();
+        }
+
+        function updateNextButton() {
+            const nextBtn = document.getElementById('nextBtn');
+            let canProceed = false;
+
+            switch (currentStep) {
+                case 1:
+                    canProceed = selectedDepartment !== null;
+                    break;
+                case 2:
+                    canProceed = selectedDoctor !== null;
+                    break;
+                case 3:
+                    canProceed = selectedDate !== null && selectedTime !== null;
+                    break;
+                case 4:
+                    canProceed = validateForm();
+                    break;
+            }
+
+            nextBtn.disabled = !canProceed;
+            if (currentStep === 4) {
+                nextBtn.textContent = isWaitingList ? '确认候补' : '确认挂号';
+            } else {
+                nextBtn.textContent = '下一步';
+            }
+        }
+
+        function addEventListeners() {
+            document.getElementById('patientName').addEventListener('input', updateNextButton);
+            document.getElementById('patientName').addEventListener('blur', updateNextButton);
+            
+            const idCardInput = document.getElementById('idCard');
+            idCardInput.addEventListener('input', function(e) {
+                this.value = this.value.toUpperCase();
+                validateIdCard();
+                updateNextButton();
+            });
+            idCardInput.addEventListener('blur', function() {
+                this.value = this.value.toUpperCase();
+                validateIdCard();
+                updateNextButton();
+            });
+            idCardInput.addEventListener('keyup', function() {
+                this.value = this.value.toUpperCase();
+            });
+            idCardInput.addEventListener('change', function() {
+                this.value = this.value.toUpperCase();
+                validateIdCard();
+                updateNextButton();
+            });
+            
+            document.getElementById('phone').addEventListener('input', function() {
+                validatePhone();
+                updateNextButton();
+                const smsBtn = document.getElementById('sendSmsBtn');
+                const regex = /^1[3-9]\d{9}$/;
+                smsBtn.disabled = !regex.test(this.value) || smsCountdown > 0;
+            });
+            document.getElementById('phone').addEventListener('blur', function() {
+                validatePhone();
+                updateNextButton();
+            });
+
+            document.getElementById('smsCode').addEventListener('input', function() {
+                validateSmsCode();
+                updateNextButton();
+            });
+            document.getElementById('smsCode').addEventListener('blur', function() {
+                validateSmsCode();
+                updateNextButton();
+            });
+
+            document.getElementById('quickBookingNo').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    quickSearchBooking();
+                }
+            });
+        }
+
+        function validateIdCard() {
+            const idCard = document.getElementById('idCard').value.trim();
+            const errorEl = document.getElementById('idCardError');
+            
+            if (!idCard) {
+                errorEl.style.display = 'none';
+                return false;
+            }
+
+            const regex = /^[1-9]\d{5}(18|19|20)\d{2}(0[1-9]|1[0-2])(0[1-9]|[12]\d|3[01])\d{3}[\dXx]$/;
+            if (!regex.test(idCard)) {
+                errorEl.textContent = '请输入正确的18位身份证号码';
+                errorEl.style.display = 'block';
+                return false;
+            }
+
+            errorEl.style.display = 'none';
+            return true;
+        }
+
+        function validatePhone() {
+            const phone = document.getElementById('phone').value.trim();
+            const errorEl = document.getElementById('phoneError');
+            
+            if (!phone) {
+                errorEl.style.display = 'none';
+                return false;
+            }
+
+            const regex = /^1[3-9]\d{9}$/;
+            if (!regex.test(phone)) {
+                errorEl.textContent = '请输入正确的11位手机号码';
+                errorEl.style.display = 'block';
+                return false;
+            }
+
+            errorEl.style.display = 'none';
+            return true;
+        }
+
+        function validateForm() {
+            const name = document.getElementById('patientName').value.trim();
+            if (!name) return false;
+            if (!validateIdCard()) return false;
+            if (!validatePhone()) return false;
+            if (!validateSmsCode()) return false;
+            return true;
+        }
+
+        function updateProgress() {
+            document.querySelectorAll('.step').forEach((step, index) => {
+                const stepNum = index + 1;
+                step.classList.remove('active', 'completed');
+                
+                if (stepNum < currentStep) {
+                    step.classList.add('completed');
+                } else if (stepNum === currentStep) {
+                    step.classList.add('active');
+                }
+            });
+        }
+
+        function showPage(pageNum) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(`page${pageNum}`).classList.add('active');
+            window.scrollTo(0, 0);
+        }
+
+        function updateSummary() {
+            document.getElementById('summaryDept').textContent = selectedDepartment?.name || '';
+            document.getElementById('summaryDoctor').textContent = selectedDoctor?.name || '';
+            document.getElementById('summaryDate').textContent = selectedDate?.display || '';
+            document.getElementById('summaryTime').textContent = selectedTime?.display || '';
+        }
+
+        function nextStep() {
+            if (currentStep === 4) {
+                submitBooking();
+                return;
+            }
+
+            showLoading('正在加载...');
+            
+            setTimeout(() => {
+                currentStep++;
+                showPage(currentStep);
+                updateProgress();
+                
+                if (currentStep === 3) {
+                    renderTimeSlots();
+                }
+                if (currentStep === 4) {
+                    updateSummary();
+                    document.getElementById('waitingListNotice').style.display = isWaitingList ? 'block' : 'none';
+                }
+                
+                updateNextButton();
+                document.getElementById('prevBtn').style.display = currentStep > 1 ? 'block' : 'none';
+                
+                hideLoading();
+            }, 300);
+        }
+
+        function prevStep() {
+            if (currentStep > 1) {
+                currentStep--;
+                showPage(currentStep);
+                updateProgress();
+                updateNextButton();
+                document.getElementById('prevBtn').style.display = currentStep > 1 ? 'block' : 'none';
+            }
+        }
+
+        function generateBookingNumber() {
+            const now = new Date();
+            const dateStr = now.getFullYear().toString() + 
+                           String(now.getMonth() + 1).padStart(2, '0') +
+                           String(now.getDate()).padStart(2, '0');
+            const random = Math.floor(Math.random() * 10000).toString().padStart(4, '0');
+            return dateStr + random;
+        }
+
+        function submitBooking() {
+            showLoading(isWaitingList ? '正在提交候补信息...' : '正在提交挂号信息...');
+
+            if (!isWaitingList && isSlotBooked(selectedDate.fullDate, selectedDoctor.id, selectedTime.time)) {
+                hideLoading();
+                alert('抱歉，该时段已被预约，请选择其他时段或候补');
+                selectedTime = null;
+                currentStep = 3;
+                showPage(3);
+                updateProgress();
+                renderTimeSlots();
+                updateNextButton();
+                return;
+            }
+
+            setTimeout(() => {
+                const name = document.getElementById('patientName').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+                const idCard = document.getElementById('idCard').value.trim();
+                const bookingNumber = generateBookingNumber();
+                
+                const bookingData = {
+                    departmentId: selectedDepartment.id,
+                    departmentName: selectedDepartment.name,
+                    doctorId: selectedDoctor.id,
+                    doctorName: selectedDoctor.name,
+                    doctorTitle: selectedDoctor.title,
+                    date: selectedDate.fullDate,
+                    dateDisplay: selectedDate.display,
+                    time: selectedTime.time,
+                    timeDisplay: selectedTime.display,
+                    name,
+                    phone,
+                    idCard,
+                    isWaitingList
+                };
+
+                if (isWaitingList) {
+                    const queueNo = addToWaitingList(
+                        selectedDate.fullDate,
+                        selectedDoctor.id,
+                        selectedTime.time,
+                        phone,
+                        name
+                    );
+                    bookingData.queueNo = queueNo;
+                } else {
+                    markSlotBooked(selectedDate.fullDate, selectedDoctor.id, selectedTime.time);
+                }
+
+                saveBookingRecord(bookingNumber, bookingData);
+                
+                document.getElementById('bookingNumber').textContent = bookingNumber;
+                document.getElementById('successDept').textContent = selectedDepartment?.name || '';
+                document.getElementById('successDoctor').textContent = selectedDoctor?.name + ' ' + selectedDoctor?.title || '';
+                document.getElementById('successDateTime').textContent = selectedDate?.display + ' ' + selectedTime?.display || '';
+                document.getElementById('successName').textContent = name;
+
+                if (isWaitingList) {
+                    document.getElementById('successIcon').textContent = '⏳';
+                    document.getElementById('successIcon').style.background = '#fef3c7';
+                    document.getElementById('successIcon').style.color = '#d97706';
+                    document.getElementById('successTitle').textContent = '候补成功！';
+                    document.getElementById('successSubtitle').textContent = '候补助手已为您排队，有号源将第一时间通知您';
+                    document.getElementById('bookingNumberLabel').textContent = '您的候补助手号';
+                    document.getElementById('successType').textContent = `候补挂号 (第${bookingData.queueNo}位)`;
+                    document.getElementById('normalTips').style.display = 'none';
+                    document.getElementById('waitingTips').style.display = 'block';
+                } else {
+                    document.getElementById('successIcon').textContent = '✓';
+                    document.getElementById('successIcon').style.background = '#dcfce7';
+                    document.getElementById('successIcon').style.color = '#16a34a';
+                    document.getElementById('successTitle').textContent = '挂号成功！';
+                    document.getElementById('successSubtitle').textContent = '请按时就诊，祝您健康';
+                    document.getElementById('bookingNumberLabel').textContent = '您的挂号单号';
+                    document.getElementById('successType').textContent = '普通挂号';
+                    document.getElementById('normalTips').style.display = 'block';
+                    document.getElementById('waitingTips').style.display = 'none';
+                }
+
+                hideLoading();
+                
+                document.getElementById('btnGroup').style.display = 'none';
+                document.querySelector('.progress-bar').style.display = 'none';
+                
+                document.querySelectorAll('.page').forEach(page => {
+                    page.classList.remove('active');
+                });
+                document.getElementById('pageSuccess').classList.add('active');
+            }, 1500);
+        }
+
+        function showLoading(text) {
+            document.getElementById('loadingText').textContent = text;
+            document.getElementById('loading').classList.add('show');
+        }
+
+        function hideLoading() {
+            document.getElementById('loading').classList.remove('show');
+        }
+
+        init();
+    </script>
+</body>
+</html>
