@@ -1,0 +1,220 @@
+@use '@/styles/variables.scss' as *;
+
+.orderDetailPage {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding-bottom: calc(120rpx + env(safe-area-inset-bottom));
+}
+
+.statusHeader {
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  padding: $spacing-xl $page-padding;
+  color: $color-text-white;
+  text-align: center;
+}
+
+.statusText {
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-semibold;
+  margin-bottom: $spacing-xs;
+}
+
+.statusDesc {
+  font-size: $font-size-md;
+  opacity: 0.9;
+}
+
+.orderInfo {
+  margin: $spacing-md $page-padding;
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  box-shadow: $shadow-card;
+}
+
+.infoRow {
+  display: flex;
+  justify-content: space-between;
+  padding: $spacing-sm 0;
+  border-bottom: 1rpx solid $color-divider;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.label {
+  font-size: $font-size-md;
+  color: $color-text-secondary;
+}
+
+.value {
+  font-size: $font-size-md;
+  color: $color-text-primary;
+}
+
+.pickupCodeBox {
+  margin: $spacing-md $page-padding;
+  background: $color-warn-bg;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  text-align: center;
+}
+
+.pickupCodeLabel {
+  font-size: $font-size-md;
+  color: $color-warning;
+  margin-bottom: $spacing-md;
+}
+
+.pickupCode {
+  font-size: 72rpx;
+  font-weight: $font-weight-bold;
+  color: $color-warning;
+  letter-spacing: 16rpx;
+}
+
+.buyerInfo {
+  margin: $spacing-md $page-padding;
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  box-shadow: $shadow-card;
+}
+
+.sectionTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-md;
+}
+
+.buyerRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: $spacing-sm;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.itemsList {
+  margin: $spacing-md $page-padding;
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  overflow: hidden;
+  box-shadow: $shadow-card;
+}
+
+.itemCard {
+  display: flex;
+  padding: $spacing-lg;
+  border-bottom: 1rpx solid $color-divider;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.itemInfo {
+  flex: 1;
+}
+
+.itemName {
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  margin-bottom: $spacing-xs;
+}
+
+.itemSpec {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.itemRight {
+  text-align: right;
+}
+
+.itemPrice {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-price;
+  margin-bottom: $spacing-xs;
+}
+
+.itemQuantity {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}
+
+.amountSummary {
+  margin: $spacing-md $page-padding;
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  box-shadow: $shadow-card;
+}
+
+.summaryRow {
+  display: flex;
+  justify-content: space-between;
+  padding: $spacing-sm 0;
+
+  &.total {
+    padding-top: $spacing-md;
+    margin-top: $spacing-sm;
+    border-top: 1rpx solid $color-divider;
+
+    .value {
+      font-size: $font-size-xl;
+      font-weight: $font-weight-bold;
+      color: $color-price;
+    }
+  }
+
+  &.commission {
+    .value {
+      color: $color-commission;
+    }
+  }
+}
+
+.actionBar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: $color-bg-card;
+  padding: $spacing-md $page-padding;
+  padding-bottom: calc($spacing-md + env(safe-area-inset-bottom));
+  box-shadow: $shadow-float;
+  display: flex;
+  gap: $spacing-md;
+}
+
+.actionBtn {
+  @include button-reset;
+  flex: 1;
+  height: $button-height-md;
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  border-radius: $radius-button;
+  transition: all $transition-base;
+
+  &:active {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+
+  &.primary {
+    background: $color-primary;
+    color: $color-text-white;
+  }
+
+  &.secondary {
+    background: $color-bg-hover;
+    color: $color-text-primary;
+  }
+}

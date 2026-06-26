@@ -1,0 +1,19 @@
+{
+  "name": "mongodb-aggregate-test",
+  "version": "1.0.0",
+  "description": "MongoDB聚合查询单元测试",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^29.7.0",
+    "mongodb": "^6.3.0",
+    "mongodb-memory-server": "^9.1.4"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "testMatch": [
+      "**/*.test.js"
+    ]
+  }
+}

@@ -1,0 +1,243 @@
+@use '@/styles/variables.scss' as *;
+
+.scanPage {
+  min-height: 100vh;
+  background: $color-bg-page;
+}
+
+.scanArea {
+  position: relative;
+  height: 500rpx;
+  background: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: $spacing-lg;
+}
+
+.scanFrame {
+  width: 400rpx;
+  height: 400rpx;
+  border: 4rpx solid $color-primary;
+  border-radius: $radius-lg;
+  position: relative;
+  overflow: hidden;
+}
+
+.scanLine {
+  position: absolute;
+  left: 20rpx;
+  right: 20rpx;
+  height: 4rpx;
+  background: linear-gradient(90deg, transparent, $color-primary, transparent);
+  animation: scan 2s linear infinite;
+}
+
+@keyframes scan {
+  0% { top: 20rpx; }
+  100% { top: calc(100% - 24rpx); }
+}
+
+.scanTips {
+  position: absolute;
+  bottom: 40rpx;
+  left: 0;
+  right: 0;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.8);
+  font-size: $font-size-sm;
+}
+
+.inputArea {
+  padding: 0 $page-padding $spacing-lg;
+}
+
+.manualInput {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  box-shadow: $shadow-card;
+  margin-bottom: $spacing-lg;
+}
+
+.inputTitle {
+  font-size: $font-size-md;
+  color: $color-text-secondary;
+  margin-bottom: $spacing-md;
+}
+
+.inputRow {
+  display: flex;
+  gap: $spacing-md;
+}
+
+.codeInput {
+  flex: 1;
+  height: 88rpx;
+  padding: 0 $spacing-md;
+  background: $color-bg-page;
+  border: 1rpx solid $color-border;
+  border-radius: $radius-md;
+  font-size: 40rpx;
+  font-weight: $font-weight-bold;
+  color: $color-primary;
+  text-align: center;
+  letter-spacing: 16rpx;
+  box-sizing: border-box;
+
+  &::placeholder {
+    color: $color-text-tertiary;
+    letter-spacing: 0;
+  }
+
+  &:focus {
+    border-color: $color-primary;
+  }
+}
+
+.scanBtn {
+  height: 88rpx;
+  padding: 0 $spacing-xl;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  color: $color-text-white;
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  border: none;
+  border-radius: $radius-md;
+  white-space: nowrap;
+  transition: all $transition-base;
+
+  &:active {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+
+  &:disabled {
+    background: $color-bg-hover;
+    color: $color-text-disabled;
+  }
+}
+
+.resultArea {
+  padding: 0 $page-padding;
+}
+
+.resultCard {
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  margin-bottom: $spacing-md;
+  box-shadow: $shadow-card;
+}
+
+.resultCard.success {
+  background: $color-tag-bg;
+  border-left: 8rpx solid $color-primary;
+}
+
+.resultCard.error {
+  background: #fef2f2;
+  border-left: 8rpx solid $color-error;
+}
+
+.resultIcon {
+  font-size: 48rpx;
+  margin-bottom: $spacing-sm;
+}
+
+.resultTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  margin-bottom: $spacing-sm;
+}
+
+.resultCard.success .resultTitle {
+  color: $color-tag-text;
+}
+
+.resultCard.error .resultTitle {
+  color: $color-error;
+}
+
+.resultInfo {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  margin-bottom: $spacing-xs;
+}
+
+.historySection {
+  margin-top: $spacing-xl;
+}
+
+.historyTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-md;
+  padding: 0 $page-padding;
+}
+
+.historyList {
+  padding: 0 $page-padding;
+  padding-bottom: calc(120rpx + env(safe-area-inset-bottom));
+}
+
+.historyItem {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-md $spacing-lg;
+  margin-bottom: $spacing-sm;
+  box-shadow: $shadow-card;
+  display: flex;
+  align-items: center;
+}
+
+.historyIcon {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: $radius-md;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: $spacing-md;
+  font-size: 28rpx;
+}
+
+.historyIcon.success {
+  background: $color-tag-bg;
+}
+
+.historyIcon.error {
+  background: #fef2f2;
+}
+
+.historyInfo {
+  flex: 1;
+}
+
+.historyCode {
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  margin-bottom: $spacing-xs;
+}
+
+.historyTime {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.historyStatus {
+  font-size: $font-size-sm;
+  padding: 4rpx 16rpx;
+  border-radius: $radius-xs;
+}
+
+.historyStatus.success {
+  background: $color-tag-bg;
+  color: $color-tag-text;
+}
+
+.historyStatus.error {
+  background: #fef2f2;
+  color: $color-error;
+}

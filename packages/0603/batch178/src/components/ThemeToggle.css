@@ -1,0 +1,27 @@
+.theme-toggle {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 8px;
+  background-color: var(--bg-secondary);
+  color: var(--text-primary);
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: all 0.3s ease;
+}
+
+.theme-toggle:hover {
+  background-color: var(--bg-hover);
+  transform: translateY(-1px);
+}
+
+.theme-toggle:active {
+  transform: translateY(0);
+}
+
+.theme-label {
+  user-select: none;
+}

@@ -1,0 +1,6 @@
+// Place your splash_logo.png file here.
+// This image is loaded by React Native via require('../assets/splash_logo.png')
+// in src/screens/SplashScreen.tsx.
+//
+// Recommended size: at least 400x400 px for good display on high-DPI devices.
+// Supported formats: .png, .jpg, .jpeg

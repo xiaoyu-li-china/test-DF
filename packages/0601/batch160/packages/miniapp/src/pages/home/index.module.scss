@@ -1,0 +1,207 @@
+@use '@/styles/variables.scss' as *;
+
+.container {
+  padding: $spacing-md $page-padding;
+  min-height: 100vh;
+  background-color: $color-bg-page;
+}
+
+.headerCard {
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  border-radius: $radius-lg;
+  padding: $spacing-xl;
+  margin-bottom: $spacing-lg;
+  box-shadow: $shadow-card;
+}
+
+.greeting {
+  color: $color-text-white;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  margin-bottom: $spacing-xs;
+}
+
+.dateText {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: $font-size-sm;
+  margin-bottom: $spacing-xl;
+}
+
+.statsRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.statItem {
+  text-align: center;
+  flex: 1;
+}
+
+.statValue {
+  color: $color-text-white;
+  font-size: $font-size-xxl;
+  font-weight: $font-weight-bold;
+  line-height: 1.2;
+}
+
+.statLabel {
+  color: rgba(255, 255, 255, 0.8);
+  font-size: $font-size-xs;
+  margin-top: $spacing-xs;
+}
+
+.divider {
+  width: 1px;
+  background-color: rgba(255, 255, 255, 0.2);
+  margin: 0 $spacing-md;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-md;
+  padding: 0 $spacing-xs;
+}
+
+.sectionTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.sectionCount {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.storeList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.storeCard {
+  background-color: $color-bg-card;
+  border-radius: $radius-md;
+  padding: $spacing-lg;
+  box-shadow: $shadow-card;
+  transition: all $transition-base;
+
+  &:active {
+    transform: scale(0.98);
+    box-shadow: $shadow-float;
+  }
+}
+
+.storeHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: $spacing-sm;
+}
+
+.storeName {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  @include text-ellipsis;
+  flex: 1;
+  margin-right: $spacing-sm;
+}
+
+.statusBadge {
+  padding: $spacing-xs $spacing-md;
+  border-radius: $radius-xs;
+  font-size: $font-size-xs;
+  font-weight: $font-weight-medium;
+  white-space: nowrap;
+}
+
+.statusPending {
+  background-color: rgba(255, 125, 0, 0.1);
+  color: $color-warning;
+}
+
+.statusInProgress {
+  background-color: rgba(22, 93, 255, 0.1);
+  color: $color-primary;
+}
+
+.statusCompleted {
+  background-color: rgba(0, 180, 42, 0.1);
+  color: $color-success;
+}
+
+.storeAddress {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  margin-bottom: $spacing-md;
+  @include text-ellipsis;
+}
+
+.storeFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: $spacing-md;
+  border-top: 1px solid $color-divider;
+}
+
+.inspectorInfo {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.actionBtn {
+  @include button-reset;
+  height: $button-height-sm;
+  padding: 0 $spacing-lg;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  border-radius: $radius-button;
+  color: $color-text-white;
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+
+  &:active {
+    opacity: 0.85;
+    transform: scale(0.96);
+  }
+}
+
+.scoreInfo {
+  display: flex;
+  align-items: center;
+  gap: $spacing-sm;
+}
+
+.scoreValue {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-bold;
+  color: $color-primary;
+}
+
+.scoreLabel {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-xxl * 2 $spacing-lg;
+  text-align: center;
+}
+
+.emptyIcon {
+  font-size: 120rpx;
+  margin-bottom: $spacing-lg;
+  opacity: 0.5;
+}
+
+.emptyText {
+  font-size: $font-size-md;
+  color: $color-text-tertiary;
+}

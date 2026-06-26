@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: "Noto Sans SC", sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  margin: 0;
+  min-width: 1280px;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #FFF8F0 0%, #F5E6D3 100%);
+}
+
+#root {
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* 自定义滚动条 */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C9A96E;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #B8956A;
+}
+
+/* 拖拽样式 */
+.dragging {
+  opacity: 0.6;
+  transform: scale(1.05);
+  cursor: grabbing !important;
+}
+
+.drag-over {
+  background: rgba(201, 169, 110, 0.2) !important;
+}
+
+/* 圆桌宾客标签环绕效果 */
+.table-guest {
+  position: absolute;
+  transform-origin: center center;
+  transition: all 0.2s ease;
+}
+
+.table-guest:hover {
+  transform: scale(1.1);
+  z-index: 10;
+}

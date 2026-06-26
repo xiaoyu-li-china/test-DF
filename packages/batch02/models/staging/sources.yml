@@ -1,0 +1,92 @@
+version: 2
+
+sources:
+  - name: raw_data
+    schema: "{{ var('source_schema', 'raw') }}"
+    description: "原始业务数据源表"
+    tables:
+      - name: raw_orders
+        description: "原始订单数据，包含每笔订单的用户、产品、数量和价格信息"
+        columns:
+          - name: order_id
+            description: "订单唯一标识"
+            tests:
+              - not_null
+              - unique
+          - name: user_id
+            description: "下单用户ID"
+            tests:
+              - not_null
+          - name: product_id
+            description: "购买产品ID"
+            tests:
+              - not_null
+          - name: quantity
+            description: "购买数量"
+            tests:
+              - not_null
+          - name: unit_price
+            description: "单价"
+            tests:
+              - not_null
+          - name: order_status
+            description: "订单状态: completed/returned/pending"
+            tests:
+              - accepted_values:
+                  arguments:
+                    values: ['completed', 'returned', 'pending']
+          - name: order_date
+            description: "下单日期"
+            tests:
+              - not_null
+
+      - name: raw_users
+        description: "原始用户数据，包含用户注册信息和基本属性"
+        columns:
+          - name: user_id
+            description: "用户唯一标识"
+            tests:
+              - not_null
+              - unique
+          - name: username
+            description: "用户名"
+            tests:
+              - not_null
+          - name: email
+            description: "用户邮箱"
+            tests:
+              - not_null
+              - unique
+          - name: phone
+            description: "手机号码"
+          - name: city
+            description: "所在城市"
+          - name: registration_date
+            description: "注册日期"
+            tests:
+              - not_null
+          - name: age_group
+            description: "年龄段分组"
+
+      - name: raw_products
+        description: "原始产品数据，包含产品分类和定价信息"
+        columns:
+          - name: product_id
+            description: "产品唯一标识"
+            tests:
+              - not_null
+              - unique
+          - name: product_name
+            description: "产品名称"
+            tests:
+              - not_null
+          - name: category
+            description: "产品大类"
+          - name: subcategory
+            description: "产品子类"
+          - name: brand
+            description: "品牌"
+          - name: cost_price
+            description: "成本价"
+          - name: list_price
+            description: "标价"

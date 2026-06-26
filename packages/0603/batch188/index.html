@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue Tailwind 暗色模式</title>
+    <script>
+      (function() {
+        const followSystem = localStorage.getItem('follow-system');
+        const savedTheme = localStorage.getItem('dark-mode');
+        const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+        let isDark;
+        if (followSystem === 'true') {
+          isDark = prefersDark;
+        } else if (savedTheme !== null) {
+          isDark = savedTheme === 'true';
+        } else {
+          isDark = prefersDark;
+        }
+        if (isDark) {
+          document.documentElement.classList.add('dark');
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    <div id="app"></div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

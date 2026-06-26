@@ -1,0 +1,17 @@
+README.md
+pyproject.toml
+nightstock/__init__.py
+nightstock/cli.py
+nightstock/db.py
+nightstock.egg-info/PKG-INFO
+nightstock.egg-info/SOURCES.txt
+nightstock.egg-info/dependency_links.txt
+nightstock.egg-info/entry_points.txt
+nightstock.egg-info/requires.txt
+nightstock.egg-info/top_level.txt
+tests/__init__.py
+tests/conftest.py
+tests/test_csv_date.py
+tests/test_mock.py
+tests/test_stall.py
+tests/test_stock.py

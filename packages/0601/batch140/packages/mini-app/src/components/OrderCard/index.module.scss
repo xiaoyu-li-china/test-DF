@@ -1,0 +1,171 @@
+@use '@/styles/variables.scss' as *;
+
+.orderCard {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  margin-bottom: $spacing-md;
+  box-shadow: $shadow-card;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-md;
+  padding-bottom: $spacing-md;
+  border-bottom: 1rpx solid $color-divider;
+}
+
+.orderNo {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.status {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-medium;
+  padding: 4rpx 16rpx;
+  border-radius: $radius-xs;
+
+  &.pending {
+    background: $color-warn-bg;
+    color: $color-warning;
+  }
+
+  &.picked {
+    background: $color-tag-bg;
+    color: $color-tag-text;
+  }
+
+  &.completed {
+    background: $color-bg-hover;
+    color: $color-text-secondary;
+  }
+}
+
+.buyerInfo {
+  display: flex;
+  align-items: center;
+  margin-bottom: $spacing-md;
+
+  .name {
+    font-size: $font-size-md;
+    font-weight: $font-weight-medium;
+    color: $color-text-primary;
+    margin-right: $spacing-md;
+  }
+
+  .phone {
+    font-size: $font-size-sm;
+    color: $color-text-tertiary;
+  }
+}
+
+.items {
+  margin-bottom: $spacing-md;
+}
+
+.item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-sm 0;
+
+  &:first-child {
+    padding-top: 0;
+  }
+}
+
+.itemName {
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  flex: 1;
+  @include text-ellipsis;
+}
+
+.itemSpec {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+  margin-left: $spacing-xs;
+}
+
+.itemQuantity {
+  font-size: $font-size-md;
+  color: $color-text-secondary;
+  margin-left: $spacing-md;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: $spacing-md;
+  border-top: 1rpx solid $color-divider;
+}
+
+.total {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+
+  .amount {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: $color-price;
+    margin-left: $spacing-xs;
+
+    &::before {
+      content: '¥';
+      font-size: $font-size-sm;
+      font-weight: $font-weight-medium;
+    }
+  }
+}
+
+.commission {
+  font-size: $font-size-sm;
+  color: $color-commission;
+}
+
+.pickupCode {
+  display: flex;
+  align-items: center;
+  padding: $spacing-sm $spacing-md;
+  background: $color-warn-bg;
+  border-radius: $radius-md;
+  margin-bottom: $spacing-md;
+
+  .label {
+    font-size: $font-size-sm;
+    color: $color-warning;
+    margin-right: $spacing-sm;
+  }
+
+  .code {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-bold;
+    color: $color-warning;
+    letter-spacing: 4rpx;
+  }
+}
+
+.actionBtn {
+  @include button-reset;
+  height: $button-height-sm;
+  padding: 0 $spacing-lg;
+  background: $color-primary;
+  color: $color-text-white;
+  font-size: $font-size-sm;
+  border-radius: $radius-button;
+  transition: all $transition-base;
+
+  &:active {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+
+  &.disabled {
+    background: $color-bg-hover;
+    color: $color-text-disabled;
+  }
+}

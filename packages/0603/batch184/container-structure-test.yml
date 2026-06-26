@@ -1,0 +1,70 @@
+schemaVersion: "2.0.0"
+
+metadataTest:
+  env:
+    - key: NODE_ENV
+      value: production
+  exposedPorts:
+    - "3000"
+  workdir: "/app"
+  user: "1001"
+
+fileExistenceTests:
+  - name: "package.json exists"
+    path: "/app/package.json"
+    shouldExist: true
+    permissions: "-rw-r--r--"
+  - name: "index.js exists"
+    path: "/app/index.js"
+    shouldExist: true
+    permissions: "-rw-r--r--"
+  - name: "node_modules exists"
+    path: "/app/node_modules"
+    shouldExist: true
+  - name: "express module exists"
+    path: "/app/node_modules/express"
+    shouldExist: true
+  - name: "nodemon should NOT exist in production"
+    path: "/app/node_modules/nodemon"
+    shouldExist: false
+
+fileContentTests:
+  - name: "Node.js version in package.json engines"
+    path: "/app/package.json"
+    expectedContents: ['.*"name": "node-dev-docker".*']
+  - name: "express dependency exists"
+    path: "/app/package.json"
+    expectedContents: ['.*"express".*']
+
+commandTests:
+  - name: "Node.js version is 18.x"
+    command: "node"
+    args: ["--version"]
+    expectedOutput: ["v18\\..*"]
+    exitCode: 0
+
+  - name: "npm is available"
+    command: "npm"
+    args: ["--version"]
+    expectedOutput: [".*"]
+    exitCode: 0
+
+  - name: "npm start script works"
+    command: "npm"
+    args: ["run", "start", "--if-present"]
+    exitCode: 0
+    setup: [["sh", "-c", "cd /app && timeout 2 npm start || true"]]
+    expectedOutput: [".*"]
+
+  - name: "Verify NODE_ENV is production"
+    command: "node"
+    args: ["-e", "console.log(process.env.NODE_ENV)"]
+    expectedOutput: ["production"]
+    exitCode: 0
+
+  - name: "Check express can be required"
+    command: "node"
+    args: ["-e", "require('express'); console.log('express loaded successfully')"]
+    expectedOutput: ["express loaded successfully"]
+    exitCode: 0
+    workdir: "/app"

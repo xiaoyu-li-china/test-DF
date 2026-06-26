@@ -1,0 +1,32 @@
+name: 'data_warehouse'
+version: '1.0.0'
+
+profile: 'data_warehouse'
+
+model-paths: ["models"]
+analysis-paths: ["analyses"]
+test-paths: ["tests"]
+seed-paths: ["seeds"]
+macro-paths: ["macros"]
+snapshot-paths: ["snapshots"]
+
+clean-targets:
+  - "target"
+  - "dbt_packages"
+
+models:
+  data_warehouse:
+    staging:
+      +materialized: incremental
+      +incremental_strategy: merge
+      +on_schema_change: append_missing_columns
+      +schema: staging
+    marts:
+      +materialized: incremental
+      +incremental_strategy: merge
+      +on_schema_change: append_missing_columns
+      +schema: marts
+
+seeds:
+  data_warehouse:
+    +schema: raw

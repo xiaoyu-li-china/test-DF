@@ -1,0 +1,173 @@
+@use '@/styles/variables.scss' as *;
+
+.commissionPage {
+  min-height: 100vh;
+  background: $color-bg-page;
+}
+
+.header {
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  padding: $spacing-xl $page-padding;
+  color: $color-text-white;
+  border-radius: 0 0 40rpx 40rpx;
+}
+
+.headerTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-medium;
+  opacity: 0.9;
+  margin-bottom: $spacing-sm;
+}
+
+.totalCommission {
+  font-size: 72rpx;
+  font-weight: $font-weight-bold;
+  margin-bottom: $spacing-lg;
+
+  &::before {
+    content: '¥';
+    font-size: $font-size-xl;
+    font-weight: $font-weight-medium;
+    margin-right: 8rpx;
+  }
+}
+
+.commissionBreakdown {
+  display: flex;
+  gap: $spacing-lg;
+}
+
+.breakdownItem {
+  .label {
+    font-size: $font-size-sm;
+    opacity: 0.8;
+    margin-bottom: $spacing-xs;
+  }
+
+  .value {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+  }
+}
+
+.withdrawBtn {
+  @include button-reset;
+  width: 100%;
+  height: $button-height-md;
+  background: $color-text-white;
+  color: $color-primary;
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  border-radius: $radius-button;
+  margin-top: $spacing-lg;
+  transition: all $transition-base;
+
+  &:active {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+}
+
+.section {
+  padding: $spacing-lg $page-padding;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-md;
+}
+
+.sectionTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.tabs {
+  display: flex;
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-xs;
+  margin-bottom: $spacing-md;
+  box-shadow: $shadow-card;
+}
+
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: $spacing-sm 0;
+  font-size: $font-size-md;
+  color: $color-text-secondary;
+  border-radius: $radius-md;
+  transition: all $transition-base;
+
+  &.active {
+    background: $color-primary;
+    color: $color-text-white;
+    font-weight: $font-weight-medium;
+  }
+}
+
+.recordList {
+  padding-bottom: calc(120rpx + env(safe-area-inset-bottom));
+}
+
+.recordItem {
+  display: flex;
+  align-items: center;
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  margin-bottom: $spacing-md;
+  box-shadow: $shadow-card;
+}
+
+.recordIcon {
+  width: 80rpx;
+  height: 80rpx;
+  border-radius: $radius-round;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36rpx;
+  margin-right: $spacing-md;
+}
+
+.recordInfo {
+  flex: 1;
+}
+
+.recordTitle {
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+  margin-bottom: $spacing-xs;
+}
+
+.recordTime {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.recordAmount {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+
+  &.income {
+    color: $color-commission;
+
+    &::before {
+      content: '+';
+    }
+  }
+
+  &.withdraw {
+    color: $color-error;
+  }
+}
+
+.emptyState {
+  padding: 120rpx 0;
+}

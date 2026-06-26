@@ -1,0 +1,25 @@
+@use '@/styles/variables.scss' as *;
+
+.emptyState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 120rpx 0;
+}
+
+.icon {
+  width: 160rpx;
+  height: 160rpx;
+  margin-bottom: $spacing-lg;
+  opacity: 0.3;
+  font-size: 120rpx;
+  text-align: center;
+  line-height: 160rpx;
+}
+
+.text {
+  font-size: $font-size-md;
+  color: $color-text-tertiary;
+  line-height: 1.5;
+}

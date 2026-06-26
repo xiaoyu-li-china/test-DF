@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/vite-env.d.ts","./src/api/assetapi.ts","./src/lib/utils.ts","./src/lib/ws.ts","./src/pages/home.tsx","./src/pages/notifications.tsx","./src/pages/stockin.tsx","./src/pages/stockout.tsx","./src/stores/useassetstore.ts","./src/test/assetstore.test.ts","./src/test/setup.ts","./src/types/index.ts","./vite.config.ts"],"version":"5.8.3"}

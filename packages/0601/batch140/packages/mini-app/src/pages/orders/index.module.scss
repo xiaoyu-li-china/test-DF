@@ -1,0 +1,114 @@
+@use '@/styles/variables.scss' as *;
+
+.ordersPage {
+  min-height: 100vh;
+  background: $color-bg-page;
+}
+
+.filterBar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background: $color-bg-page;
+  padding: $spacing-md $page-padding;
+}
+
+.dateSelector {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-md $spacing-lg;
+  margin-bottom: $spacing-md;
+  box-shadow: $shadow-card;
+}
+
+.dateLabel {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}
+
+.dateValue {
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+}
+
+.dateIcon {
+  font-size: 32rpx;
+  color: $color-text-tertiary;
+}
+
+.summaryCard {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $spacing-sm;
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-md;
+  margin-bottom: $spacing-md;
+  box-shadow: $shadow-card;
+}
+
+.summaryItem {
+  text-align: center;
+
+  .value {
+    font-size: $font-size-lg;
+    font-weight: $font-weight-semibold;
+    color: $color-primary;
+    margin-bottom: $spacing-xs;
+  }
+
+  .label {
+    font-size: $font-size-xs;
+    color: $color-text-tertiary;
+  }
+}
+
+.exportBtn {
+  @include button-reset;
+  width: 100%;
+  height: $button-height-md;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  color: $color-text-white;
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  border-radius: $radius-button;
+  margin-bottom: $spacing-md;
+  transition: all $transition-base;
+
+  &:active {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+}
+
+.orderList {
+  padding: 0 $page-padding;
+  padding-bottom: calc(120rpx + env(safe-area-inset-bottom));
+}
+
+.dateGroup {
+  margin-bottom: $spacing-lg;
+}
+
+.dateHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: $spacing-sm 0;
+  margin-bottom: $spacing-sm;
+}
+
+.dateTitle {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.dateStats {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}

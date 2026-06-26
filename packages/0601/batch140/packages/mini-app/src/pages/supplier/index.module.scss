@@ -1,0 +1,288 @@
+@use '@/styles/variables.scss' as *;
+
+.supplierPage {
+  min-height: 100vh;
+  background: $color-bg-page;
+}
+
+.supplierSelector {
+  background: $color-bg-card;
+  padding: $spacing-md $page-padding;
+  margin-bottom: $spacing-md;
+  box-shadow: $shadow-card;
+}
+
+.selectorLabel {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  margin-bottom: $spacing-sm;
+}
+
+.supplierList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: $spacing-sm;
+}
+
+.supplierChip {
+  padding: $spacing-sm $spacing-md;
+  background: $color-bg-page;
+  border: 1rpx solid $color-border;
+  border-radius: $radius-button;
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  transition: all $transition-base;
+
+  &.active {
+    background: rgba(7, 193, 96, 0.1);
+    border-color: $color-primary;
+    color: $color-primary;
+    font-weight: $font-weight-medium;
+  }
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $spacing-md;
+  padding: 0 $page-padding;
+  margin-bottom: $spacing-lg;
+}
+
+.statCard {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  box-shadow: $shadow-card;
+  text-align: center;
+}
+
+.statValue {
+  font-size: 48rpx;
+  font-weight: $font-weight-bold;
+  color: $color-primary;
+  margin-bottom: $spacing-xs;
+}
+
+.statLabel {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}
+
+.statCard.success .statValue {
+  color: $color-success;
+}
+
+.statCard.warning .statValue {
+  color: $color-warning;
+}
+
+.section {
+  padding: 0 $page-padding;
+  margin-bottom: $spacing-lg;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-md;
+}
+
+.sectionTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.productList {
+  padding-bottom: calc(120rpx + env(safe-area-inset-bottom));
+}
+
+.productCard {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  margin-bottom: $spacing-md;
+  box-shadow: $shadow-card;
+  display: flex;
+  gap: $spacing-md;
+}
+
+.productImage {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: $radius-md;
+  background: $color-bg-hover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 64rpx;
+  flex-shrink: 0;
+}
+
+.productInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.productName {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-xs;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.productSpec {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  margin-bottom: $spacing-md;
+}
+
+.productStats {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.productPrice {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $color-price;
+}
+
+.productStock {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}
+
+.productSold {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.productOrders {
+  margin-top: $spacing-md;
+  padding-top: $spacing-md;
+  border-top: 1rpx solid $color-divider;
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}
+
+.orderList {
+  padding-bottom: calc(120rpx + env(safe-area-inset-bottom));
+}
+
+.orderCard {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  margin-bottom: $spacing-md;
+  box-shadow: $shadow-card;
+}
+
+.orderHeader {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: $spacing-md;
+  padding-bottom: $spacing-md;
+  border-bottom: 1rpx solid $color-divider;
+}
+
+.orderNo {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.orderStatus {
+  font-size: $font-size-sm;
+  padding: 4rpx 16rpx;
+  border-radius: $radius-xs;
+
+  &.pending {
+    background: $color-warn-bg;
+    color: $color-warning;
+  }
+
+  &.picked {
+    background: $color-tag-bg;
+    color: $color-tag-text;
+  }
+}
+
+.buyerInfo {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  margin-bottom: $spacing-md;
+}
+
+.orderItems {
+  margin-bottom: $spacing-md;
+}
+
+.orderItem {
+  display: flex;
+  justify-content: space-between;
+  padding: $spacing-xs 0;
+  font-size: $font-size-sm;
+}
+
+.itemName {
+  color: $color-text-primary;
+}
+
+.itemQuantity {
+  color: $color-text-secondary;
+}
+
+.orderFooter {
+  display: flex;
+  justify-content: space-between;
+  padding-top: $spacing-md;
+  border-top: 1rpx solid $color-divider;
+}
+
+.orderTime {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.orderAmount {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-price;
+}
+
+.tabs {
+  display: flex;
+  background: $color-bg-card;
+  margin-bottom: $spacing-md;
+  border-bottom: 1rpx solid $color-divider;
+}
+
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: $spacing-md 0;
+  font-size: $font-size-md;
+  color: $color-text-secondary;
+  border-bottom: 4rpx solid transparent;
+  transition: all $transition-base;
+
+  &.active {
+    color: $color-primary;
+    border-bottom-color: $color-primary;
+    font-weight: $font-weight-medium;
+  }
+}
+
+.permissionTip {
+  background: #dbeafe;
+  color: #1e40af;
+  padding: $spacing-md $page-padding;
+  font-size: $font-size-sm;
+  text-align: center;
+}

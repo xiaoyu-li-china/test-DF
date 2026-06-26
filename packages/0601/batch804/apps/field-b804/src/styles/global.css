@@ -1,0 +1,407 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 16px;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background-color: #f5f7fa;
+  color: #1d2129;
+  min-height: 100vh;
+}
+
+.app-container {
+  max-width: 1080px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 24px;
+  background: linear-gradient(135deg, #165DFF 0%, #0E42D2 100%);
+  color: #ffffff;
+}
+
+.app-header h1 {
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.network-status {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+}
+
+.status-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background-color: #e5e6eb;
+}
+
+.status-dot.online {
+  background-color: #00B42A;
+  box-shadow: 0 0 8px rgba(0, 180, 42, 0.5);
+}
+
+.status-dot.offline {
+  background-color: #F53F3F;
+  box-shadow: 0 0 8px rgba(245, 63, 63, 0.5);
+}
+
+.tab-nav {
+  display: flex;
+  background-color: #f7f8fa;
+  border-bottom: 1px solid #e5e6eb;
+}
+
+.tab-btn {
+  flex: 1;
+  padding: 14px 16px;
+  border: none;
+  background: transparent;
+  font-size: 15px;
+  color: #4e5969;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-bottom: 2px solid transparent;
+}
+
+.tab-btn:hover {
+  color: #165DFF;
+  background-color: #e8f3ff;
+}
+
+.tab-btn.active {
+  color: #165DFF;
+  border-bottom-color: #165DFF;
+  font-weight: 500;
+}
+
+.tab-btn:focus {
+  outline: 2px solid #165DFF;
+  outline-offset: -2px;
+}
+
+.app-main {
+  flex: 1;
+  padding: 24px;
+  overflow-y: auto;
+}
+
+.page-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: #1d2129;
+}
+
+.checklist-container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.checklist-item {
+  display: flex;
+  align-items: flex-start;
+  padding: 16px;
+  background-color: #f7f8fa;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.checklist-item:hover {
+  background-color: #e8f3ff;
+}
+
+.checklist-item:focus-within {
+  outline: 2px solid #165DFF;
+  outline-offset: 2px;
+}
+
+.checkbox-wrapper {
+  position: relative;
+  margin-right: 12px;
+  flex-shrink: 0;
+}
+
+.checkbox-wrapper input[type="checkbox"] {
+  width: 22px;
+  height: 22px;
+  cursor: pointer;
+  accent-color: #165DFF;
+}
+
+.checkbox-wrapper input[type="checkbox"]:focus {
+  outline: 2px solid #165DFF;
+  outline-offset: 2px;
+}
+
+.checklist-item-content {
+  flex: 1;
+}
+
+.checklist-item-title {
+  font-size: 15px;
+  font-weight: 500;
+  color: #1d2129;
+  margin-bottom: 4px;
+}
+
+.checklist-item-desc {
+  font-size: 13px;
+  color: #86909c;
+}
+
+.photo-capture-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.camera-preview {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background-color: #1d2129;
+  border-radius: 8px;
+  overflow: hidden;
+  position: relative;
+}
+
+.camera-preview video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.camera-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: #86909c;
+}
+
+.camera-placeholder svg {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 12px;
+}
+
+.capture-btn {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  border: 4px solid #ffffff;
+  background-color: #F53F3F;
+  cursor: pointer;
+  margin: 0 auto;
+  display: block;
+  transition: transform 0.1s ease;
+}
+
+.capture-btn:hover {
+  transform: scale(1.05);
+}
+
+.capture-btn:active {
+  transform: scale(0.95);
+}
+
+.capture-btn:focus {
+  outline: 2px solid #165DFF;
+  outline-offset: 4px;
+}
+
+.capture-btn:disabled {
+  background-color: #c9cdd4;
+  cursor: not-allowed;
+}
+
+.photo-queue {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.queue-item {
+  display: flex;
+  align-items: center;
+  padding: 12px;
+  background-color: #f7f8fa;
+  border-radius: 8px;
+  gap: 12px;
+}
+
+.queue-thumbnail {
+  width: 60px;
+  height: 60px;
+  background-color: #e5e6eb;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.queue-info {
+  flex: 1;
+}
+
+.queue-status {
+  font-size: 13px;
+  color: #86909c;
+}
+
+.queue-status.pending {
+  color: #FF7D00;
+}
+
+.queue-status.syncing {
+  color: #165DFF;
+}
+
+.queue-status.success {
+  color: #00B42A;
+}
+
+.queue-status.failed {
+  color: #F53F3F;
+}
+
+.report-container {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.sync-stats {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 16px;
+}
+
+.stat-card {
+  padding: 20px;
+  background-color: #f7f8fa;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 32px;
+  font-weight: 700;
+  color: #165DFF;
+}
+
+.stat-label {
+  font-size: 13px;
+  color: #86909c;
+  margin-top: 4px;
+}
+
+.primary-btn {
+  padding: 14px 24px;
+  background: linear-gradient(135deg, #165DFF 0%, #0E42D2 100%);
+  color: #ffffff;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.primary-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(22, 93, 255, 0.3);
+}
+
+.primary-btn:active {
+  transform: translateY(0);
+}
+
+.primary-btn:focus {
+  outline: 2px solid #165DFF;
+  outline-offset: 2px;
+}
+
+.primary-btn:disabled {
+  background: #c9cdd4;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+.sync-log {
+  background-color: #1d2129;
+  color: #00B42A;
+  padding: 16px;
+  border-radius: 8px;
+  font-family: 'SF Mono', Monaco, monospace;
+  font-size: 13px;
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.sync-log-line {
+  padding: 4px 0;
+  border-bottom: 1px solid #303846;
+}
+
+.sync-log-line:last-child {
+  border-bottom: none;
+}
+
+.sync-log-line .time {
+  color: #86909c;
+  margin-right: 8px;
+}
+
+.sync-log-line .info {
+  color: #165DFF;
+}
+
+.sync-log-line .error {
+  color: #F53F3F;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+.syncing {
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@media (max-width: 640px) {
+  .app-header {
+    padding: 12px 16px;
+  }
+
+  .app-header h1 {
+    font-size: 18px;
+  }
+
+  .app-main {
+    padding: 16px;
+  }
+
+  .sync-stats {
+    grid-template-columns: 1fr;
+  }
+}

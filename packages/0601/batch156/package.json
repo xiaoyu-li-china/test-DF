@@ -1,0 +1,23 @@
+{
+  "name": "batch156",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node app.js",
+    "test": "jest --testTimeout=60000"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "express": "^5.2.1",
+    "redis": "^6.0.0"
+  },
+  "devDependencies": {
+    "@testcontainers/redis": "^12.0.1",
+    "jest": "^30.4.2",
+    "supertest": "^7.2.2"
+  }
+}

@@ -1,0 +1,52 @@
+{
+  "passed": 9,
+  "failed": 0,
+  "results": [
+    {
+      "name": "注册前快捷键未被注册",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "name": "注册快捷键成功",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "name": "注册后快捷键状态为已注册",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "name": "注销快捷键成功",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "name": "检测已注册快捷键成功",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "name": "批量注册多个快捷键成功",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "name": "批量注销所有快捷键成功",
+      "passed": true,
+      "message": ""
+    },
+    {
+      "name": "空字符串快捷键注册失败（预期行为）",
+      "passed": true,
+      "message": "Error processing argument at index 0, conversion failure from "
+    },
+    {
+      "name": "无效快捷键注册失败（预期行为）",
+      "passed": true,
+      "message": "Error processing argument at index 0, conversion failure from InvalidKey"
+    }
+  ],
+  "timestamp": "2026-06-02T23:49:09.058Z"
+}

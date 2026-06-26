@@ -1,0 +1,7 @@
+// Place your splash_logo image files here:
+// - splash_logo.png    (1x, e.g. 200x150 pt)
+// - splash_logo@2x.png (2x, e.g. 400x300 pt)
+// - splash_logo@3x.png (3x, e.g. 600x450 pt)
+//
+// These are referenced by Contents.json in this folder.
+// Xcode will automatically pick them up as the "SplashLogo" image set.

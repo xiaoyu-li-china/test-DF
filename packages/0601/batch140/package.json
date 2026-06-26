@@ -1,0 +1,16 @@
+{
+  "name": "group-buy-platform",
+  "private": true,
+  "version": "1.0.0",
+  "description": "社区拼团买菜团长端 - Monorepo",
+  "scripts": {
+    "dev:mini": "pnpm --filter @group-buy/mini-app dev:weapp",
+    "dev:admin": "pnpm --filter @group-buy/admin dev",
+    "build:mini": "pnpm --filter @group-buy/mini-app build:weapp",
+    "build:admin": "pnpm --filter @group-buy/admin build",
+    "build": "pnpm -r build"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
+}

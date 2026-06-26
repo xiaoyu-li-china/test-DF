@@ -1,0 +1,210 @@
+@use '@/styles/variables.scss' as *;
+
+.container {
+  padding: $spacing-md $page-padding $spacing-xxl * 2;
+  background-color: $color-bg-page;
+  min-height: 100vh;
+}
+
+.header {
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  border-radius: $radius-lg;
+  padding: $spacing-xl;
+  margin-bottom: $spacing-lg;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.storeName {
+  color: $color-text-white;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+}
+
+.scoreSummary {
+  text-align: right;
+}
+
+.scoreValue {
+  font-size: 48rpx;
+  font-weight: $font-weight-bold;
+  color: $color-text-white;
+  line-height: 1;
+}
+
+.scoreMax {
+  font-size: $font-size-sm;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.auditSection {
+  background-color: $color-bg-card;
+  border-radius: $radius-md;
+  padding: $spacing-lg;
+  margin-bottom: $spacing-lg;
+  box-shadow: $shadow-card;
+}
+
+.sectionTitle {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-md;
+}
+
+.auditItem {
+  background-color: $color-bg-page;
+  border-radius: $radius-sm;
+  padding: $spacing-md;
+  margin-bottom: $spacing-sm;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.auditHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-xs;
+}
+
+.auditVersion {
+  font-size: $font-size-sm;
+  font-weight: $font-weight-semibold;
+  color: $color-primary;
+}
+
+.auditAction {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.auditDetail {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.auditScore {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}
+
+.auditTime {
+  font-size: $font-size-xs;
+  color: $color-text-tertiary;
+}
+
+.categorySection {
+  background-color: $color-bg-card;
+  border-radius: $radius-md;
+  padding: $spacing-lg;
+  margin-bottom: $spacing-md;
+  box-shadow: $shadow-card;
+}
+
+.categoryTitle {
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-lg;
+  padding-bottom: $spacing-md;
+  border-bottom: 1px solid $color-divider;
+}
+
+.scoreItem {
+  padding: $spacing-md 0;
+  border-bottom: 1px solid $color-divider;
+
+  &:last-child {
+    border-bottom: none;
+  }
+}
+
+.itemHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-xs;
+}
+
+.itemName {
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+}
+
+.required {
+  color: $color-error;
+  margin-left: 4rpx;
+}
+
+.photoTag {
+  font-size: $font-size-xs;
+  color: $color-warning;
+}
+
+.itemDesc {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+  margin-bottom: $spacing-md;
+}
+
+.scoreControl {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: $spacing-md;
+}
+
+.scoreBtn {
+  @include button-reset;
+  width: 64rpx;
+  height: 64rpx;
+  background-color: $color-bg-page;
+  border-radius: $radius-sm;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-bold;
+  color: $color-primary;
+
+  &:active {
+    background-color: $color-primary;
+    color: $color-text-white;
+  }
+}
+
+.scoreDisplay {
+  min-width: 100rpx;
+  text-align: center;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-primary;
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: $spacing-lg $page-padding;
+  background-color: $color-bg-card;
+  box-shadow: $shadow-float;
+}
+
+.submitBtn {
+  @include button-reset;
+  width: 100%;
+  height: $button-height-lg;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  border-radius: $radius-button;
+  color: $color-text-white;
+  font-size: $font-size-md;
+  font-weight: $font-weight-semibold;
+
+  &:active {
+    opacity: 0.85;
+  }
+}

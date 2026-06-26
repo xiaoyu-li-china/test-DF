@@ -1,0 +1,18 @@
+spring:
+  redis:
+    host: localhost
+    port: 16379
+    database: 0
+    timeout: 3000ms
+    lettuce:
+      pool:
+        max-active: 8
+        max-wait: -1ms
+        max-idle: 8
+        min-idle: 0
+
+spring.redis.redisson:
+  file: classpath:redisson-test.yml
+
+server:
+  port: 18080

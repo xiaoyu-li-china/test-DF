@@ -1,0 +1,112 @@
+.commentSection {
+  margin-top: 48px;
+}
+
+.commentSection h2 {
+  font-size: 1.5rem;
+  margin-bottom: 24px;
+  color: #1a1a1a;
+}
+
+.commentForm {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 24px;
+  background: #f9f9f9;
+  border-radius: 12px;
+  margin-bottom: 32px;
+}
+
+.formGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.formGroup label {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+}
+
+.formInput,
+.formTextarea {
+  padding: 10px 14px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  font-size: 15px;
+  transition: border-color 0.2s;
+}
+
+.formInput:focus,
+.formTextarea:focus {
+  outline: none;
+  border-color: #0070f3;
+}
+
+.formTextarea {
+  resize: vertical;
+  min-height: 80px;
+}
+
+.errorText {
+  color: #e03030;
+  font-size: 14px;
+}
+
+.submitButton {
+  align-self: flex-start;
+  padding: 10px 24px;
+  background: #0070f3;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.submitButton:hover:not(:disabled) {
+  background: #005bb5;
+}
+
+.submitButton:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.commentList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.commentItem {
+  padding: 16px;
+  border: 1px solid #eee;
+  border-radius: 8px;
+}
+
+.commentHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.commentAuthor {
+  font-weight: 600;
+  color: #333;
+}
+
+.commentTime {
+  font-size: 13px;
+  color: #999;
+}
+
+.commentContent {
+  color: #444;
+  line-height: 1.6;
+}

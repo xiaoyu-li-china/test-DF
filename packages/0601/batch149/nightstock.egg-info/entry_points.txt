@@ -1,0 +1,3 @@
+[console_scripts]
+nightstock = nightstock.cli:cli
+ns = nightstock.cli:cli

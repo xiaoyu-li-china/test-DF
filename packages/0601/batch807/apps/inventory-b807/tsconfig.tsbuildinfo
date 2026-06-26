@@ -1,0 +1,1 @@
+{"root":["./src/app.tsx","./src/main.tsx","./src/components/alertpanel.tsx","./src/components/stocktable.tsx","./src/components/trendchart.tsx","./src/hooks/usemockwebsocket.ts","./src/pages/dashboard.tsx","./src/store/useinventorystore.ts","./src/types/index.ts","./src/utils/csvexport.ts","./src/utils/mockdata.ts"],"version":"5.8.3"}

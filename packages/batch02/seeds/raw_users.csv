@@ -1,0 +1,9 @@
+user_id,username,email,phone,city,registration_date,age_group
+1,alice_w,alice@example.com,13800001111,Beijing,2024-03-10,25-34
+2,bob_z,bob@example.com,13800002222,Shanghai,2024-04-15,35-44
+3,charlie_l,charlie@example.com,13800003333,Guangzhou,2024-05-20,18-24
+4,diana_m,diana@example.com,13800004444,Shenzhen,2024-06-25,25-34
+5,eve_k,eve@example.com,13800005555,Hangzhou,2024-07-30,45-54
+6,frank_s,frank@example.com,13800006666,Chengdu,2024-08-05,35-44
+7,grace_t,grace@example.com,13800007777,Nanjing,2024-09-12,25-34
+8,henry_w,henry@example.com,13800008888,Wuhan,2024-10-18,18-24

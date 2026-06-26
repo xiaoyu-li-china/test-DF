@@ -1,0 +1,269 @@
+@use '@/styles/variables.scss' as *;
+
+.withdrawPage {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding: $spacing-lg $page-padding;
+}
+
+.balanceCard {
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  border-radius: $radius-lg;
+  padding: $spacing-xl;
+  color: $color-text-white;
+  margin-bottom: $spacing-lg;
+}
+
+.label {
+  font-size: $font-size-md;
+  opacity: 0.9;
+  margin-bottom: $spacing-sm;
+}
+
+.amount {
+  font-size: 64rpx;
+  font-weight: $font-weight-bold;
+  margin-bottom: $spacing-sm;
+
+  &::before {
+    content: '¥';
+    font-size: $font-size-lg;
+    font-weight: $font-weight-medium;
+    margin-right: 8rpx;
+  }
+}
+
+.tips {
+  font-size: $font-size-sm;
+  opacity: 0.8;
+}
+
+.formCard {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  box-shadow: $shadow-card;
+  margin-bottom: $spacing-lg;
+}
+
+.formTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-lg;
+}
+
+.formGroup {
+  margin-bottom: $spacing-lg;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+}
+
+.formLabel {
+  font-size: $font-size-md;
+  color: $color-text-secondary;
+  margin-bottom: $spacing-sm;
+  display: block;
+}
+
+.formInput {
+  width: 100%;
+  height: 88rpx;
+  padding: 0 $spacing-md;
+  background: $color-bg-page;
+  border: 1rpx solid $color-border;
+  border-radius: $radius-md;
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  box-sizing: border-box;
+
+  &::placeholder {
+    color: $color-text-tertiary;
+  }
+
+  &:focus {
+    border-color: $color-primary;
+  }
+}
+
+.amountInput {
+  font-size: 48rpx;
+  font-weight: $font-weight-bold;
+  color: $color-primary;
+}
+
+.payMethodList {
+  display: flex;
+  flex-direction: column;
+  gap: $spacing-md;
+}
+
+.payMethodItem {
+  display: flex;
+  align-items: center;
+  padding: $spacing-md;
+  background: $color-bg-page;
+  border: 2rpx solid $color-border;
+  border-radius: $radius-md;
+  transition: all $transition-base;
+
+  &.active {
+    border-color: $color-primary;
+    background: rgba(7, 193, 96, 0.05);
+  }
+}
+
+.payMethodIcon {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: $radius-md;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32rpx;
+  margin-right: $spacing-md;
+}
+
+.payMethodInfo {
+  flex: 1;
+}
+
+.payMethodName {
+  font-size: $font-size-md;
+  font-weight: $font-weight-medium;
+  color: $color-text-primary;
+}
+
+.radio {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+  border: 2rpx solid $color-border;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &.active {
+    border-color: $color-primary;
+
+    &::after {
+      content: '';
+      width: 24rpx;
+      height: 24rpx;
+      border-radius: 50%;
+      background: $color-primary;
+    }
+  }
+}
+
+.quickAmounts {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $spacing-sm;
+  margin-top: $spacing-sm;
+}
+
+.quickAmountBtn {
+  height: 64rpx;
+  background: $color-bg-page;
+  border: 1rpx solid $color-border;
+  border-radius: $radius-md;
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all $transition-base;
+
+  &.active {
+    background: rgba(7, 193, 96, 0.1);
+    border-color: $color-primary;
+    color: $color-primary;
+    font-weight: $font-weight-medium;
+  }
+}
+
+.withdrawBtn {
+  width: 100%;
+  height: $button-height-lg;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  color: $color-text-white;
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  border: none;
+  border-radius: $radius-button;
+  box-shadow: $shadow-card;
+  transition: all $transition-base;
+
+  &:active {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+
+  &:disabled {
+    background: $color-bg-hover;
+    color: $color-text-disabled;
+    box-shadow: none;
+  }
+}
+
+.withdrawRecords {
+  margin-top: $spacing-xl;
+}
+
+.recordsTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-md;
+}
+
+.recordItem {
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-lg;
+  margin-bottom: $spacing-md;
+  box-shadow: $shadow-card;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.recordInfo {
+  flex: 1;
+}
+
+.recordAmount {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-error;
+  margin-bottom: $spacing-xs;
+}
+
+.recordMeta {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.recordStatus {
+  font-size: $font-size-sm;
+  padding: 8rpx 20rpx;
+  border-radius: $radius-xs;
+
+  &.pending {
+    background: $color-warn-bg;
+    color: $color-warning;
+  }
+
+  &.approved, &.paid {
+    background: $color-tag-bg;
+    color: $color-tag-text;
+  }
+
+  &.rejected {
+    background: #fef2f2;
+    color: $color-error;
+  }
+}

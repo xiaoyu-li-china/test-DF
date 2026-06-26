@@ -1,0 +1,120 @@
+@use '@/styles/variables.scss' as *;
+
+.homePage {
+  min-height: 100vh;
+  background: linear-gradient(180deg, rgba(7, 193, 96, 0.08) 0%, $color-bg-page 100%);
+}
+
+.header {
+  padding: $spacing-lg $page-padding $spacing-xl;
+  background: linear-gradient(135deg, $color-primary 0%, $color-primary-light 100%);
+  color: $color-text-white;
+  border-radius: 0 0 40rpx 40rpx;
+}
+
+.leaderInfo {
+  display: flex;
+  align-items: center;
+  margin-bottom: $spacing-lg;
+}
+
+.avatar {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: $radius-round;
+  background: rgba(255, 255, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 48rpx;
+  margin-right: $spacing-md;
+}
+
+.info {
+  flex: 1;
+}
+
+.name {
+  font-size: $font-size-xl;
+  font-weight: $font-weight-semibold;
+  margin-bottom: $spacing-xs;
+}
+
+.community {
+  font-size: $font-size-sm;
+  opacity: 0.9;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: $spacing-md;
+  padding: 0 $page-padding;
+  margin-top: -60rpx;
+  margin-bottom: $spacing-lg;
+}
+
+.section {
+  padding: 0 $page-padding;
+  margin-bottom: $spacing-lg;
+}
+
+.sectionHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: $spacing-md;
+}
+
+.sectionTitle {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+}
+
+.seeAll {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}
+
+.quickActions {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: $spacing-md;
+  padding: $spacing-lg;
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  box-shadow: $shadow-card;
+}
+
+.actionItem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: all $transition-base;
+
+  &:active {
+    transform: scale(0.95);
+    opacity: 0.8;
+  }
+}
+
+.actionIcon {
+  width: 96rpx;
+  height: 96rpx;
+  border-radius: $radius-lg;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 40rpx;
+  margin-bottom: $spacing-sm;
+}
+
+.actionLabel {
+  font-size: $font-size-sm;
+  color: $color-text-secondary;
+}
+
+.orderList {
+  padding-top: $spacing-sm;
+}

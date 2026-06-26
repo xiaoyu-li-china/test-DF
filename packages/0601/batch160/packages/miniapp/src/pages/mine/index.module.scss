@@ -1,0 +1,34 @@
+@use '@/styles/variables.scss' as *;
+
+.container {
+  padding: $spacing-lg $page-padding;
+  min-height: 100vh;
+  background-color: $color-bg-page;
+}
+
+.placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: $spacing-xxl * 3 $spacing-lg;
+  text-align: center;
+}
+
+.icon {
+  font-size: 120rpx;
+  margin-bottom: $spacing-lg;
+  opacity: 0.5;
+}
+
+.title {
+  font-size: $font-size-lg;
+  font-weight: $font-weight-semibold;
+  color: $color-text-primary;
+  margin-bottom: $spacing-sm;
+}
+
+.desc {
+  font-size: $font-size-sm;
+  color: $color-text-tertiary;
+}

@@ -1,0 +1,212 @@
+[
+  {
+    "id": "slope-1",
+    "name": "白云初雪道",
+    "difficulty": "beginner",
+    "congestion": 18,
+    "waitTime": 2,
+    "lift": { "name": "A1 缆车", "type": "chairlift", "capacity": 4 },
+    "history": [
+      { "time": "08:00", "congestion": 8 },
+      { "time": "09:00", "congestion": 12 },
+      { "time": "10:00", "congestion": 15 },
+      { "time": "11:00", "congestion": 22 },
+      { "time": "12:00", "congestion": 28 },
+      { "time": "13:00", "congestion": 25 },
+      { "time": "14:00", "congestion": 20 },
+      { "time": "15:00", "congestion": 18 },
+      { "time": "16:00", "congestion": 14 },
+      { "time": "17:00", "congestion": 10 }
+    ],
+    "points": [[-30, 12, -20], [-18, 15, -12], [-5, 13, -5], [8, 8, 2], [20, 3, 10]]
+  },
+  {
+    "id": "slope-2",
+    "name": "松林小径",
+    "difficulty": "beginner",
+    "congestion": 42,
+    "waitTime": 6,
+    "lift": { "name": "A2 缆车", "type": "chairlift", "capacity": 4 },
+    "history": [
+      { "time": "08:00", "congestion": 20 },
+      { "time": "09:00", "congestion": 30 },
+      { "time": "10:00", "congestion": 38 },
+      { "time": "11:00", "congestion": 52 },
+      { "time": "12:00", "congestion": 60 },
+      { "time": "13:00", "congestion": 55 },
+      { "time": "14:00", "congestion": 48 },
+      { "time": "15:00", "congestion": 42 },
+      { "time": "16:00", "congestion": 35 },
+      { "time": "17:00", "congestion": 25 }
+    ],
+    "points": [[-25, 14, -15], [-14, 16, -6], [-2, 14, 4], [10, 10, 12], [22, 5, 18]]
+  },
+  {
+    "id": "slope-3",
+    "name": "银霜飞瀑",
+    "difficulty": "intermediate",
+    "congestion": 65,
+    "waitTime": 12,
+    "lift": { "name": "B1 缆车", "type": "chairlift", "capacity": 6 },
+    "history": [
+      { "time": "08:00", "congestion": 35 },
+      { "time": "09:00", "congestion": 45 },
+      { "time": "10:00", "congestion": 58 },
+      { "time": "11:00", "congestion": 72 },
+      { "time": "12:00", "congestion": 80 },
+      { "time": "13:00", "congestion": 75 },
+      { "time": "14:00", "congestion": 68 },
+      { "time": "15:00", "congestion": 65 },
+      { "time": "16:00", "congestion": 55 },
+      { "time": "17:00", "congestion": 42 }
+    ],
+    "points": [[-35, 18, -8], [-22, 22, 2], [-10, 20, 10], [2, 16, 16], [14, 10, 20], [26, 5, 22]]
+  },
+  {
+    "id": "slope-4",
+    "name": "冰晶峡谷",
+    "difficulty": "intermediate",
+    "congestion": 78,
+    "waitTime": 18,
+    "lift": { "name": "B2 缆车", "type": "gondola", "capacity": 8 },
+    "history": [
+      { "time": "08:00", "congestion": 40 },
+      { "time": "09:00", "congestion": 55 },
+      { "time": "10:00", "congestion": 68 },
+      { "time": "11:00", "congestion": 82 },
+      { "time": "12:00", "congestion": 90 },
+      { "time": "13:00", "congestion": 85 },
+      { "time": "14:00", "congestion": 80 },
+      { "time": "15:00", "congestion": 78 },
+      { "time": "16:00", "congestion": 65 },
+      { "time": "17:00", "congestion": 50 }
+    ],
+    "points": [[-28, 20, 5], [-16, 24, 10], [-4, 22, 14], [8, 18, 18], [20, 12, 20], [30, 6, 24]]
+  },
+  {
+    "id": "slope-5",
+    "name": "暴风雪脊",
+    "difficulty": "advanced",
+    "congestion": 91,
+    "waitTime": 25,
+    "lift": { "name": "C1 缆车", "type": "chairlift", "capacity": 4 },
+    "history": [
+      { "time": "08:00", "congestion": 50 },
+      { "time": "09:00", "congestion": 65 },
+      { "time": "10:00", "congestion": 78 },
+      { "time": "11:00", "congestion": 88 },
+      { "time": "12:00", "congestion": 95 },
+      { "time": "13:00", "congestion": 92 },
+      { "time": "14:00", "congestion": 88 },
+      { "time": "15:00", "congestion": 91 },
+      { "time": "16:00", "congestion": 82 },
+      { "time": "17:00", "congestion": 68 }
+    ],
+    "points": [[-38, 24, -2], [-26, 28, 6], [-14, 26, 14], [-2, 22, 18], [10, 16, 22], [22, 10, 24], [32, 5, 26]]
+  },
+  {
+    "id": "slope-6",
+    "name": "晨曦漫步",
+    "difficulty": "beginner",
+    "congestion": 25,
+    "waitTime": 4,
+    "lift": { "name": "A3 缆车", "type": "t-bar", "capacity": 2 },
+    "history": [
+      { "time": "08:00", "congestion": 12 },
+      { "time": "09:00", "congestion": 18 },
+      { "time": "10:00", "congestion": 22 },
+      { "time": "11:00", "congestion": 30 },
+      { "time": "12:00", "congestion": 35 },
+      { "time": "13:00", "congestion": 32 },
+      { "time": "14:00", "congestion": 28 },
+      { "time": "15:00", "congestion": 25 },
+      { "time": "16:00", "congestion": 20 },
+      { "time": "17:00", "congestion": 15 }
+    ],
+    "points": [[-20, 10, -25], [-10, 13, -18], [0, 11, -10], [12, 7, -2], [24, 3, 6]]
+  },
+  {
+    "id": "slope-7",
+    "name": "暗夜飞驰",
+    "difficulty": "advanced",
+    "congestion": 55,
+    "waitTime": 10,
+    "lift": { "name": "C2 缆车", "type": "chairlift", "capacity": 4 },
+    "history": [
+      { "time": "08:00", "congestion": 28 },
+      { "time": "09:00", "congestion": 38 },
+      { "time": "10:00", "congestion": 48 },
+      { "time": "11:00", "congestion": 62 },
+      { "time": "12:00", "congestion": 70 },
+      { "time": "13:00", "congestion": 65 },
+      { "time": "14:00", "congestion": 58 },
+      { "time": "15:00", "congestion": 55 },
+      { "time": "16:00", "congestion": 48 },
+      { "time": "17:00", "congestion": 38 }
+    ],
+    "points": [[-32, 22, 12], [-20, 26, 16], [-8, 24, 20], [4, 20, 22], [16, 14, 24], [28, 8, 26]]
+  },
+  {
+    "id": "slope-8",
+    "name": "极光滑道",
+    "difficulty": "intermediate",
+    "congestion": 35,
+    "waitTime": 5,
+    "lift": { "name": "B3 缆车", "type": "chairlift", "capacity": 4 },
+    "history": [
+      { "time": "08:00", "congestion": 15 },
+      { "time": "09:00", "congestion": 22 },
+      { "time": "10:00", "congestion": 30 },
+      { "time": "11:00", "congestion": 42 },
+      { "time": "12:00", "congestion": 48 },
+      { "time": "13:00", "congestion": 45 },
+      { "time": "14:00", "congestion": 40 },
+      { "time": "15:00", "congestion": 35 },
+      { "time": "16:00", "congestion": 28 },
+      { "time": "17:00", "congestion": 20 }
+    ],
+    "points": [[-22, 16, -18], [-12, 19, -10], [-2, 17, 0], [8, 13, 8], [18, 8, 14], [28, 4, 20]]
+  },
+  {
+    "id": "slope-9",
+    "name": "雪山之巅",
+    "difficulty": "advanced",
+    "congestion": 85,
+    "waitTime": 22,
+    "lift": { "name": "C3 缆车", "type": "gondola", "capacity": 8 },
+    "history": [
+      { "time": "08:00", "congestion": 45 },
+      { "time": "09:00", "congestion": 60 },
+      { "time": "10:00", "congestion": 72 },
+      { "time": "11:00", "congestion": 85 },
+      { "time": "12:00", "congestion": 92 },
+      { "time": "13:00", "congestion": 88 },
+      { "time": "14:00", "congestion": 86 },
+      { "time": "15:00", "congestion": 85 },
+      { "time": "16:00", "congestion": 75 },
+      { "time": "17:00", "congestion": 60 }
+    ],
+    "points": [[-40, 28, 0], [-28, 32, 8], [-16, 30, 14], [-4, 26, 18], [8, 20, 22], [20, 14, 24], [32, 8, 26]]
+  },
+  {
+    "id": "slope-10",
+    "name": "月光小道",
+    "difficulty": "beginner",
+    "congestion": 12,
+    "waitTime": 1,
+    "lift": { "name": "A4 魔毯", "type": "t-bar", "capacity": 1 },
+    "history": [
+      { "time": "08:00", "congestion": 5 },
+      { "time": "09:00", "congestion": 8 },
+      { "time": "10:00", "congestion": 10 },
+      { "time": "11:00", "congestion": 15 },
+      { "time": "12:00", "congestion": 18 },
+      { "time": "13:00", "congestion": 16 },
+      { "time": "14:00", "congestion": 14 },
+      { "time": "15:00", "congestion": 12 },
+      { "time": "16:00", "congestion": 10 },
+      { "time": "17:00", "congestion": 7 }
+    ],
+    "points": [[-18, 8, -22], [-8, 11, -14], [2, 9, -6], [12, 6, 2], [22, 3, 10]]
+  }
+]

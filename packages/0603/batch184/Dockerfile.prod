@@ -1,0 +1,26 @@
+FROM node:18-alpine AS deps
+
+WORKDIR /app
+
+COPY package.json package-lock.json* ./
+
+RUN npm ci --only=production
+
+FROM node:18-alpine AS runner
+
+WORKDIR /app
+
+ENV NODE_ENV=production
+
+RUN addgroup -g 1001 -S nodejs && \
+    adduser -S nodeapp -u 1001 -G nodejs
+
+COPY --from=deps --chown=nodeapp:nodejs /app/node_modules ./node_modules
+COPY --chown=nodeapp:nodejs package.json ./
+COPY --chown=nodeapp:nodejs index.js ./
+
+USER nodeapp
+
+EXPOSE 3000
+
+CMD ["node", "index.js"]

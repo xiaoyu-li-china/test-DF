@@ -1,0 +1,88 @@
+@use '@/styles/variables.scss' as *;
+
+.pickupPage {
+  min-height: 100vh;
+  background: $color-bg-page;
+  padding: $spacing-md $page-padding;
+}
+
+.searchBar {
+  display: flex;
+  align-items: center;
+  background: $color-bg-card;
+  border-radius: $radius-button;
+  padding: 0 $spacing-lg;
+  height: $button-height-md;
+  margin-bottom: $spacing-lg;
+  box-shadow: $shadow-card;
+}
+
+.searchIcon {
+  font-size: 32rpx;
+  margin-right: $spacing-sm;
+  opacity: 0.5;
+}
+
+.searchInput {
+  flex: 1;
+  font-size: $font-size-md;
+  color: $color-text-primary;
+  background: transparent;
+  border: none;
+  outline: none;
+}
+
+.tabs {
+  display: flex;
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-xs;
+  margin-bottom: $spacing-lg;
+  box-shadow: $shadow-card;
+}
+
+.tab {
+  flex: 1;
+  text-align: center;
+  padding: $spacing-sm 0;
+  font-size: $font-size-md;
+  color: $color-text-secondary;
+  border-radius: $radius-md;
+  transition: all $transition-base;
+
+  &.active {
+    background: $color-primary;
+    color: $color-text-white;
+    font-weight: $font-weight-medium;
+  }
+}
+
+.statsBar {
+  display: flex;
+  justify-content: space-around;
+  background: $color-bg-card;
+  border-radius: $radius-lg;
+  padding: $spacing-md;
+  margin-bottom: $spacing-lg;
+  box-shadow: $shadow-card;
+}
+
+.statItem {
+  text-align: center;
+
+  .value {
+    font-size: $font-size-xl;
+    font-weight: $font-weight-bold;
+    color: $color-primary;
+    margin-bottom: $spacing-xs;
+  }
+
+  .label {
+    font-size: $font-size-sm;
+    color: $color-text-tertiary;
+  }
+}
+
+.orderList {
+  padding-bottom: calc(120rpx + env(safe-area-inset-bottom));
+}

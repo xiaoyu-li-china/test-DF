@@ -1,0 +1,28 @@
+{
+  "name": "@inspection/shared",
+  "version": "1.0.0",
+  "private": false,
+  "description": "门店巡检系统共享数据模型和类型定义",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch"
+  },
+  "keywords": [
+    "inspection",
+    "types",
+    "models"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "dayjs": "^1.11.10"
+  },
+  "devDependencies": {
+    "typescript": "^5.1.0"
+  }
+}

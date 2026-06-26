@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Test Page</title>
+</head>
+<body>
+  <h1>Shortcut Test Page</h1>
+  <div id="status">ready</div>
+  <div id="callback-count">0</div>
+  <script>
+    window.testResults = {
+      callbacksTriggered: []
+    };
+    
+    window.testAPI.onShortcutTriggered((data) => {
+      window.testResults.callbacksTriggered.push(data);
+      document.getElementById('callback-count').textContent = window.testResults.callbacksTriggered.length;
+    });
+    
+    document.getElementById('status').textContent = 'test-ready';
+  </script>
+</body>
+</html>

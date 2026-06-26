@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>植物浇水提醒</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🌱 植物浇水提醒</h1>
+      <p class="subtitle">记录你的植物，再也不用担心忘记浇水</p>
+    </header>
+
+    <div id="notifBanner" class="notif-banner hidden">
+      <span class="notif-banner-icon">🔔</span>
+      <span class="notif-banner-text">开启浏览器通知，到点自动提醒你浇水</span>
+      <button id="notifEnableBtn" class="notif-banner-btn">开启通知</button>
+      <button id="notifDismissBtn" class="notif-banner-close">✕</button>
+    </div>
+
+    <div id="notifDeniedBanner" class="notif-banner denied hidden">
+      <span class="notif-banner-icon">🔕</span>
+      <span class="notif-banner-text">通知权限已被拒绝，浇水提醒将无法推送。如需开启，请在浏览器设置中允许本站通知权限。</span>
+      <button id="notifDeniedDismissBtn" class="notif-banner-close">✕</button>
+    </div>
+
+    <section class="add-plant">
+      <h2>添加植物</h2>
+      <form id="plantForm">
+        <div class="form-group">
+          <label for="plantName">植物名称</label>
+          <input type="text" id="plantName" placeholder="例如：绿萝" required>
+        </div>
+        <div class="form-group">
+          <label for="plantRoom">所在房间</label>
+          <select id="plantRoom">
+            <option value="客厅">客厅</option>
+            <option value="阳台">阳台</option>
+            <option value="卧室">卧室</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="lastWatered">上次浇水日期</label>
+          <input type="date" id="lastWatered" required>
+        </div>
+        <div class="form-group">
+          <label for="waterCycle">浇水周期（天）</label>
+          <input type="number" id="waterCycle" min="1" placeholder="例如：7" required>
+        </div>
+        <button type="submit" class="btn-primary">添加植物</button>
+      </form>
+    </section>
+
+    <section class="plants-list">
+      <div class="plants-header">
+        <h2>我的植物</h2>
+        <div id="roomFilter" class="room-filter">
+          <button class="room-filter-btn active" data-room="all">全部</button>
+          <button class="room-filter-btn" data-room="客厅">🏠 客厅</button>
+          <button class="room-filter-btn" data-room="阳台">☀️ 阳台</button>
+          <button class="room-filter-btn" data-room="卧室">🛏️ 卧室</button>
+        </div>
+      </div>
+      <div id="plantsContainer" class="plants-grid">
+      </div>
+      <div id="emptyState" class="empty-state">
+        <p>还没有添加任何植物 🌿</p>
+        <p class="hint">在上方表单中添加你的第一株植物吧！</p>
+      </div>
+    </section>
+  </div>
+
+  <div class="confirm-modal" id="confirmModal">
+    <div class="confirm-dialog">
+      <p class="confirm-message" id="confirmText"></p>
+      <div class="confirm-actions">
+        <button class="btn-confirm-cancel" id="confirmCancel">取消</button>
+        <button class="btn-confirm-ok" id="confirmOk">确定删除</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="plantUtils.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

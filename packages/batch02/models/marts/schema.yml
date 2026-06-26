@@ -1,0 +1,212 @@
+version: 2
+
+models:
+  - name: stg_orders
+    description: "订单清洗中间层（增量模型），基于 order_date 增量过滤，merge 策略处理更新，append_missing_columns 处理 schema 漂移"
+    columns:
+      - name: order_id
+        description: "订单唯一标识，作为增量 unique_key"
+        tests:
+          - not_null
+          - unique
+      - name: user_id
+        description: "下单用户ID"
+        tests:
+          - not_null
+          - referential_integrity:
+              arguments:
+                ref_model: ref('stg_users')
+                ref_column: user_id
+      - name: product_id
+        description: "购买产品ID"
+        tests:
+          - not_null
+          - referential_integrity:
+              arguments:
+                ref_model: ref('stg_products')
+                ref_column: product_id
+      - name: quantity
+        description: "购买数量"
+        tests:
+          - not_null
+          - not_negative: {}
+      - name: unit_price
+        description: "单价"
+        tests:
+          - not_null
+          - not_negative: {}
+      - name: gross_amount
+        description: "毛金额 = quantity * unit_price"
+        tests:
+          - not_negative: {}
+      - name: refund_amount
+        description: "退款金额，仅 returned 状态订单"
+        tests:
+          - not_negative: {}
+      - name: net_amount
+        description: "净金额，排除已退货订单"
+        tests:
+          - not_negative: {}
+      - name: order_status
+        description: "订单状态"
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['completed', 'returned', 'pending']
+      - name: order_date
+        description: "下单日期，作为增量过滤条件的水位线"
+        tests:
+          - not_null
+
+  - name: stg_users
+    description: "用户清洗中间层（增量模型），基于 registration_date 增量过滤，merge 策略处理更新"
+    columns:
+      - name: user_id
+        description: "用户唯一标识，作为增量 unique_key"
+        tests:
+          - not_null
+          - unique
+      - name: username
+        tests:
+          - not_null
+      - name: email
+        tests:
+          - not_null
+          - unique
+      - name: age_group_sort_key
+        description: "年龄段排序键，用于有序展示"
+
+  - name: stg_products
+    description: "产品清洗中间层（增量模型），merge 策略处理更新，append_missing_columns 处理 schema 漂移"
+    columns:
+      - name: product_id
+        description: "产品唯一标识，作为增量 unique_key"
+        tests:
+          - not_null
+          - unique
+      - name: product_name
+        tests:
+          - not_null
+      - name: gross_margin
+        description: "毛利 = list_price - cost_price"
+        tests:
+          - not_negative: {}
+      - name: gross_margin_pct
+        description: "毛利率百分比"
+
+  - name: dim_users
+    description: "用户维度表（增量模型），仅处理新增用户和有新订单的用户。unique_key=user_key 保证去重，merge 策略更新已有行的聚合指标"
+    tests:
+      - dbt_utils.expression_is_true:
+          arguments:
+            expression: "total_orders = completed_orders + returned_orders + pending_orders"
+    columns:
+      - name: user_key
+        description: "用户代理键（surrogate key），作为增量 unique_key"
+        tests:
+          - not_null
+          - unique
+      - name: user_id
+        tests:
+          - not_null
+          - unique
+      - name: total_orders
+        description: "用户总订单数"
+        tests:
+          - not_negative: {}
+      - name: total_net_spent
+        description: "用户净消费总额"
+        tests:
+          - not_negative: {}
+      - name: customer_segment
+        description: "客户分群: new/regular/vip"
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['new', 'regular', 'vip', 'unknown']
+      - name: first_order_date
+        description: "首次下单日期"
+      - name: last_order_date
+        description: "最近下单日期，也作为增量过滤水位线"
+
+  - name: dim_products
+    description: "产品维度表（增量模型），仅处理新增产品和有新订单的产品。unique_key=product_key 保证去重，merge 策略更新已有行的聚合指标"
+    columns:
+      - name: product_key
+        description: "产品代理键（surrogate key），作为增量 unique_key"
+        tests:
+          - not_null
+          - unique
+      - name: product_id
+        tests:
+          - not_null
+          - unique
+      - name: total_quantity_sold
+        description: "累计销售数量"
+        tests:
+          - not_negative: {}
+      - name: total_net_revenue
+        description: "累计净收入"
+        tests:
+          - not_negative: {}
+      - name: sales_performance_tier
+        description: "销售表现层级: no_sales/low_seller/medium_seller/top_seller"
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['no_sales', 'low_seller', 'medium_seller', 'top_seller']
+
+  - name: fct_order_details
+    description: "订单明细事实表（增量模型），基于 order_date 水位线增量过滤。unique_key=order_detail_key 保证去重，merge 策略处理订单状态变更"
+    tests:
+      - dbt_utils.expression_is_true:
+          arguments:
+            expression: "gross_amount = quantity * unit_price"
+    columns:
+      - name: order_detail_key
+        description: "订单明细代理键，作为增量 unique_key"
+        tests:
+          - not_null
+          - unique
+      - name: order_id
+        description: "订单ID"
+        tests:
+          - not_null
+      - name: user_key
+        description: "关联用户维度代理键"
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_users')
+                field: user_key
+      - name: product_key
+        description: "关联产品维度代理键"
+        tests:
+          - not_null
+          - relationships:
+              arguments:
+                to: ref('dim_products')
+                field: product_key
+      - name: net_amount
+        description: "订单净金额"
+        tests:
+          - not_negative: {}
+      - name: profit
+        description: "订单利润 = net_amount - total_cost"
+      - name: profit_margin_pct
+        description: "利润率百分比"
+      - name: order_status
+        description: "订单状态（merge 策略可处理状态变更更新）"
+        tests:
+          - accepted_values:
+              arguments:
+                values: ['completed', 'returned', 'pending']
+      - name: order_date
+        description: "下单日期，作为事实表增量过滤水位线"
+      - name: order_year
+        description: "下单年份"
+      - name: order_month
+        description: "下单月份"
+      - name: order_day_of_week
+        description: "下单星期几"

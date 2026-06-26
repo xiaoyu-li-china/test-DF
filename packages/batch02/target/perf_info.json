@@ -1,0 +1,50 @@
+{
+    "path_count": 157,
+    "parsed_path_count": 20,
+    "static_analysis_path_count": 5,
+    "static_analysis_parsed_path_count": 1,
+    "is_partial_parse_enabled": true,
+    "is_static_analysis_enabled": true,
+    "read_files_elapsed": 0.039525500003946945,
+    "load_macros_elapsed": 0.001991416997043416,
+    "parse_project_elapsed": 0.435126416006824,
+    "patch_sources_elapsed": 1.1041993275284767e-05,
+    "process_manifest_elapsed": 0.005397374974563718,
+    "load_all_elapsed": 0.5940417910169344,
+    "projects": [
+        {
+            "project_name": "data_warehouse",
+            "elapsed": 0.4350032079964876,
+            "parsers": [
+                {
+                    "parser": "model",
+                    "elapsed": 0.17920620800578035,
+                    "parsed_path_count": 5
+                },
+                {
+                    "parser": "test",
+                    "elapsed": 0.07728012499865144,
+                    "parsed_path_count": 11
+                },
+                {
+                    "parser": "test",
+                    "elapsed": 0.17850366700440645,
+                    "parsed_path_count": 1
+                }
+            ],
+            "parsed_path_count": 17
+        },
+        {
+            "project_name": "dbt_postgres",
+            "elapsed": 0,
+            "parsers": [],
+            "parsed_path_count": 0
+        },
+        {
+            "project_name": "dbt",
+            "elapsed": 0,
+            "parsers": [],
+            "parsed_path_count": 0
+        }
+    ]
+}

@@ -1,0 +1,17 @@
+{
+  "name": "node-dev-docker",
+  "version": "1.0.0",
+  "description": "Node.js development environment with Docker",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon --legacy-watch index.js",
+    "dev:chokidar": "nodemon --watch index.js --watch src --ext js,json --polling-interval 1000 index.js",
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}

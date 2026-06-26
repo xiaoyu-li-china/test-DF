@@ -1,0 +1,43 @@
+schemaVersion: "2.0.0"
+
+metadataTest:
+  env:
+    - key: NODE_ENV
+      value: development
+  exposedPorts:
+    - "3000"
+  workdir: "/app"
+
+fileExistenceTests:
+  - name: "package.json exists"
+    path: "/app/package.json"
+    shouldExist: true
+  - name: "nodemon.json exists"
+    path: "/app/nodemon.json"
+    shouldExist: true
+  - name: "nodemon module exists in dev"
+    path: "/app/node_modules/nodemon"
+    shouldExist: true
+  - name: "express module exists"
+    path: "/app/node_modules/express"
+    shouldExist: true
+
+commandTests:
+  - name: "Node.js version is 18.x"
+    command: "node"
+    args: ["--version"]
+    expectedOutput: ["v18\\..*"]
+    exitCode: 0
+
+  - name: "nodemon is available"
+    command: "npx"
+    args: ["nodemon", "--version"]
+    expectedOutput: [".*"]
+    exitCode: 0
+
+  - name: "npm run dev script exists"
+    command: "npm"
+    args: ["run"]
+    expectedOutput: [".*dev.*"]
+    exitCode: 0
+    workdir: "/app"

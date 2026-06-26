@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: 'Noto Sans SC', sans-serif;
+  line-height: 1.6;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: #FAF8F5;
+  color: #1B2A4A;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #FAF8F5 0%, #F5F0E8 50%, #FAF8F5 100%);
+}
+
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% center; }
+  100% { background-position: 200% center; }
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.6s ease-out forwards;
+}
+
+.animate-fade-in-up-delay-1 {
+  animation: fadeInUp 0.6s ease-out 0.1s forwards;
+  opacity: 0;
+}
+
+.animate-fade-in-up-delay-2 {
+  animation: fadeInUp 0.6s ease-out 0.2s forwards;
+  opacity: 0;
+}
+
+.animate-fade-in-up-delay-3 {
+  animation: fadeInUp 0.6s ease-out 0.3s forwards;
+  opacity: 0;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, #C8A96E 0%, #E8C06E 50%, #C8A96E 100%);
+  background-size: 200% auto;
+  animation: shimmer 3s linear infinite;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+

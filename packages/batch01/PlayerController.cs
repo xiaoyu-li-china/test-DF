@@ -25,6 +25,10 @@ public class PlayerController : MonoBehaviour
     [Header("跳跃防连跳")]
     [SerializeField] private float jumpCooldown = 0.3f;
 
+    [Header("技能按键")]
+    [SerializeField] private KeyCode attackKey = KeyCode.Mouse0;
+    [SerializeField] private KeyCode castSpellKey = KeyCode.Mouse1;
+
     private CharacterController controller;
     private PlayerAnimator playerAnimator;
     private Vector3 velocity;
@@ -45,6 +49,7 @@ public class PlayerController : MonoBehaviour
         GroundCheck();
         HandleMovement();
         HandleJump();
+        HandleSkills();
         ApplyGravity();
         SmoothDisplaySpeed();
         UpdateCooldown();
@@ -83,9 +88,28 @@ public class PlayerController : MonoBehaviour
         float targetSpeed = isRunning ? runSpeed : walkSpeed;
         currentSpeed = moveDirection.magnitude > 0.1f ? targetSpeed : 0f;
 
+        if (playerAnimator.IsUsingSkill)
+        {
+            currentSpeed = 0f;
+        }
+
         if (currentSpeed > 0)
         {
             controller.Move(moveDirection.normalized * currentSpeed * Time.deltaTime);
+        }
+    }
+
+    private void HandleSkills()
+    {
+        if (playerAnimator.IsUsingSkill) return;
+
+        if (Input.GetKeyDown(attackKey))
+        {
+            playerAnimator.PlayAttack();
+        }
+        else if (Input.GetKeyDown(castSpellKey))
+        {
+            playerAnimator.PlayCastSpell();
         }
     }
 
@@ -105,10 +129,11 @@ public class PlayerController : MonoBehaviour
 
     private void HandleJump()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && !isJumping)
+        if (Input.GetKeyDown(KeyCode.Space) && isGrounded && !isJumping && jumpCooldownTimer <= 0)
         {
             velocity.y = Mathf.Sqrt(jumpForce * -2f * gravity);
             isJumping = true;
+            jumpCooldownTimer = jumpCooldown;
             playerAnimator.OnJump();
         }
     }
@@ -121,7 +146,7 @@ public class PlayerController : MonoBehaviour
 
     private void UpdateAnimatorParameters()
     {
-        playerAnimator.UpdateSpeed(currentSpeed);
+        playerAnimator.UpdateSpeed(displaySpeed);
         playerAnimator.UpdateGrounded(isGrounded);
     }
 

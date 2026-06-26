@@ -1,0 +1,9 @@
+// Place your splash_logo.png image in the following density folders:
+// android/app/src/main/res/mipmap-mdpi/splash_logo.png    (48x48 dp)
+// android/app/src/main/res/mipmap-hdpi/splash_logo.png    (72x72 dp)
+// android/app/src/main/res/mipmap-xhdpi/splash_logo.png   (96x96 dp)
+// android/app/src/main/res/mipmap-xxhdpi/splash_logo.png  (144x144 dp)
+// android/app/src/main/res/mipmap-xxxhdpi/splash_logo.png (192x192 dp)
+//
+// The splash background color is #1a1a2e (defined in res/values/colors.xml).
+// The launch_screen.xml drawable references @mipmap/splash_logo as the centered bitmap.

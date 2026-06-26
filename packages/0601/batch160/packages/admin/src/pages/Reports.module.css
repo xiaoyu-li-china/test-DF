@@ -1,0 +1,217 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.cardTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.headerActions {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+}
+
+.monthInput {
+  padding: 8px 12px;
+  border: 1px solid var(--border-color);
+  border-radius: 6px;
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.exportButton {
+  padding: 8px 20px;
+  background: linear-gradient(135deg, #165dff 0%, #4080ff 100%);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.exportButton:hover {
+  opacity: 0.9;
+}
+
+.exportButtonSecondary {
+  padding: 8px 20px;
+  background: white;
+  color: #165dff;
+  border: 1px solid #165dff;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.exportButtonSecondary:hover {
+  background: #f0f5ff;
+}
+
+.summarySection {
+  padding: 24px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.sectionTitle {
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 16px;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.statBox {
+  padding: 20px;
+  background: #f7f8fa;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.statNumber {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--primary-color);
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+
+.statLabel {
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.section {
+  padding: 24px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.section:last-child {
+  border-bottom: none;
+}
+
+.table {
+  width:  100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: #f7f8fa;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.table td {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 14px;
+  color: var(--text-primary);
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.areaName {
+  font-weight: 500;
+}
+
+.score {
+  font-weight: 600;
+  color: var(--primary-color);
+}
+
+.passRateBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.passRateBar > div:first-child {
+  flex: 1;
+  height: 8px;
+  background: #f2f3f5;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.passRateFill {
+  height: 100%;
+  background: linear-gradient(90deg, #00b42a 0%, #23c34f 100%);
+  border-radius: 4px;
+}
+
+.passRateText {
+  font-size: 13px;
+  color: var(--text-secondary);
+  min-width: 40px;
+}
+
+.topList {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.topItem {
+  display: flex;
+  align-items: center;
+  padding: 12px 16px;
+  background: #f7f8fa;
+  border-radius: 8px;
+}
+
+.topRank {
+  width: 32px;
+  height: 32px;
+  background: linear-gradient(135deg, #165dff 0%, #4080ff 100%);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+  margin-right: 12px;
+}
+
+.topStoreName {
+  flex: 1;
+  font-weight: 500;
+}
+
+.topScore {
+  font-weight: 600;
+  color: var(--primary-color);
+}

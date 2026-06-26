@@ -1,0 +1,26 @@
+{
+    "webhook_url": "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=你的企业微信机器人KEY",
+    "csv_file": "feeding_schedule.csv",
+    "log_file": "feeding_logs.csv",
+    "check_interval": 60,
+    "meal_times": {
+        "早餐": [7, 30],
+        "午餐": [12, 0],
+        "晚餐": [18, 30]
+    },
+    "escalation_minutes": 30,
+    "escalation_phone": "13800138000",
+    "aliyun": {
+        "access_key_id": "你的阿里云AccessKeyId",
+        "access_key_secret": "你的阿里云AccessKeySecret",
+        "tts_code": "TTS模板编码",
+        "called_show_number": "01012345678"
+    },
+    "google_sheet": {
+        "enabled": true,
+        "sheet_id": "GoogleSheet的ID",
+        "sheet_range": "Sheet1!A:D",
+        "api_key": "Google Sheets API Key",
+        "refresh_interval_minutes": 30
+    }
+}

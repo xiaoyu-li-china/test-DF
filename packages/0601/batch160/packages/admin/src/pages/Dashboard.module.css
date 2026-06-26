@@ -1,0 +1,151 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.statsRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.statCard {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.statIcon {
+  width: 56px;
+  height: 56px;
+  background: linear-gradient(135deg, #165dff 0%, #4080ff 100%);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.statSuccess .statIcon {
+  background: linear-gradient(135deg, #00b42a 0%, #23c34f 100%);
+}
+
+.statWarning .statIcon {
+  background: linear-gradient(135deg, #ff7d00 0%, #ff9a2e 100%);
+}
+
+.statInfo .statIcon {
+  background: linear-gradient(135deg, #722ed1 0%, #9254de 100%);
+}
+
+.statValue {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--text-primary);
+  line-height: 1.2;
+}
+
+.statLabel {
+  font-size: 14px;
+  color: var(--text-secondary);
+  margin-top: 4px;
+}
+
+.section {
+}
+
+.sectionTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin-bottom: 12px;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+}
+
+.progressBar {
+  height: 12px;
+  background: #f2f3f5;
+  border-radius: 6px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, #165dff 0%, #4080ff 100%);
+  border-radius: 6px;
+  transition: width 0.3s ease;
+}
+
+.progressText {
+  font-size: 14px;
+  color: var(--text-secondary);
+}
+
+.progressPercent {
+  color: var(--primary-color);
+  font-weight: 600;
+  margin-left: 8px;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.table th {
+  text-align: left;
+  padding: 12px 16px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  background: #f7f8fa;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.table td {
+  padding: 16px;
+  border-bottom: 1px solid var(--border-color);
+  font-size: 14px;
+}
+
+.table tr:last-child td {
+  border-bottom: none;
+}
+
+.storeName {
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.storeAddress {
+  color: var(--text-secondary);
+  max-width: 300px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.statusBadge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.score {
+  font-weight: 600;
+  color: var(--primary-color);
+}

@@ -1,0 +1,6 @@
+product_id,product_name,category,subcategory,brand,cost_price,list_price
+101,Wireless Mouse,Electronics,Peripherals,TechBrand,15.00,29.99
+102,Mechanical Keyboard,Electronics,Peripherals,TypeMaster,25.00,49.99
+103,USB-C Hub,Electronics,Accessories,ConnectAll,10.00,19.99
+104,Monitor Stand,Office,Furniture,ErgoDesk,50.00,99.99
+105,Webcam HD,Electronics,Accessories,ClearView,75.00,149.99

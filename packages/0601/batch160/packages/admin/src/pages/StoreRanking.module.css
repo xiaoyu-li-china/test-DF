@@ -1,0 +1,119 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.card {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.cardTitle {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.legend {
+  display: flex;
+  gap: 16px;
+  font-size: 13px;
+  color: var(--text-secondary);
+}
+
+.legendItem {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.rankingList {
+  padding: 8px 0;
+}
+
+.rankingItem {
+  display: flex;
+  align-items: center;
+  padding: 16px 24px;
+  gap: 16px;
+  transition: background-color 0.2s;
+}
+
+.rankingItem:hover {
+  background-color: #f7f8fa;
+}
+
+.rank {
+  width: 40px;
+  text-align: center;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.topRank {
+  font-size: 24px;
+}
+
+.storeInfo {
+  flex: 1;
+}
+
+.storeName {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--text-primary);
+  margin-bottom: 4px;
+}
+
+.storeMeta {
+  display: flex;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--text-tertiary);
+}
+
+.areaTag {
+  padding: 2px 8px;
+  background: #f2f3f5;
+  border-radius: 4px;
+}
+
+.scoreSection {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 4px;
+  min-width: 100px;
+}
+
+.scoreValue {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--primary-color);
+  line-height: 1;
+}
+
+.scoreLevel {
+  padding: 2px 10px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.trend {
+  width: 32px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+}

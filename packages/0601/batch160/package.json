@@ -1,0 +1,23 @@
+{
+  "name": "store-inspection-monorepo",
+  "version": "1.0.0",
+  "private": true,
+  "description": "奶茶门店巡检系统 - Monorepo",
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:miniapp": "npm run dev:weapp --workspace=packages/miniapp",
+    "dev:admin": "npm run dev --workspace=packages/admin",
+    "build:miniapp": "npm run build:weapp --workspace=packages/miniapp",
+    "build:admin": "npm run build --workspace=packages/admin",
+    "build:shared": "npm run build --workspace=packages/shared"
+  },
+  "keywords": [
+    "inspection",
+    "miniapp",
+    "monorepo"
+  ],
+  "author": "",
+  "license": "MIT"
+}

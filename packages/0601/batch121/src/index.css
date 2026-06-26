@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: -apple-system, BlinkMacSystemFont, "PingFang SC", "Noto Sans SC", "Helvetica Neue", Helvetica, Arial, sans-serif, "Apple Color Emoji";
+  line-height: 1.5;
+  font-weight: 400;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: #fff8f0;
+  overscroll-behavior: none;
+}
+
+input, button, select, textarea {
+  font-family: inherit;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
