@@ -11,3 +11,8 @@ node_modules/
 *.log
 dist/
 build/
+node_modules/
+.cache/
+*.log
+dist/
+build/
